@@ -1,4 +1,4 @@
-##Week 2 report##
+## Week 2 report ##
 
 I started coding the huffman coding, only to realize i know nothing about compression, nor working with bits with Java.
 This is likely my main problem in the begininning.
