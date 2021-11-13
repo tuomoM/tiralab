@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
  * @author tuomomehtala
  */
 public class HuffmanCompression {
-    private HashMap keys;
+    private HashMap<Character,String> keys;
     private HuffmanNode nodes;
     private HashMap<Character,Integer> occurences;
     private String data;
@@ -19,7 +19,7 @@ public class HuffmanCompression {
     
     public HuffmanCompression(String data){
        this.data = data;
-        
+        this.keys = new HashMap<>();
         HashMap<Character,Integer> occurences = new HashMap<>();
         
         for(int i = 0 ; i < data.length();i++){

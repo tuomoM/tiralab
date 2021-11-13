@@ -1,0 +1,8 @@
+compression/Main.java
+ compression.Main
+compression/HuffmanNode.java
+ compression.HuffmanNode
+compression/HuffmanCompression.java
+ compression.HuffmanCompression
+compression/FileInterface.java
+ compression.FileInterface

@@ -32,6 +32,15 @@ public class HuffmanNode implements Comparable {
     public boolean isLeaf(){
         return this.isLeaf;
     }
+    public char getLeaf(){
+        return this.leaf;
+    }
+    public HuffmanNode getLeft(){
+        return this.left;
+    }
+    public HuffmanNode getRight(){
+        return this.right;
+    }
     @Override
     public int compareTo(Object o) {
         if(o instanceof HuffmanNode){
