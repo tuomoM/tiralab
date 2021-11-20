@@ -39,7 +39,7 @@ public class HuffmanTest {
     public void HuffManOccunces(){
            HuffmanCompression compressor = new HuffmanCompression(inputData);
            HashMap<Character,Integer> occurences = compressor.getOccurences();
-           assertTrue(occurences.get('a')==4);
+           assertTrue(occurences.get('a')==4&& occurences.get('b')==2 && occurences.get('c')==1);
     }
     
 }

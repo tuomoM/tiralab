@@ -6,6 +6,7 @@
 package compression;
 import java.util.HashMap;
 import java.util.PriorityQueue;
+import java.nio.ByteBuffer;
 /**
  *
  * @author tuomomehtala
@@ -16,6 +17,7 @@ public class HuffmanCompression {
     private HashMap<Character,Integer> occurences;
     private String data;
     private String dataPacked;
+    private int strLen;
     
     public HuffmanCompression(String data){
        this.data = data;
@@ -29,6 +31,35 @@ public class HuffmanCompression {
         generateNodes(occurences);
         generateKeys(this.nodes,"");
         generatePacked();
+    }
+    public HuffmanCompression(byte[] packedFile){
+            HashMap<Character,Integer> occurences = new HashMap<>();
+        byte[] byteInt = {packedFile[0],packedFile[1],packedFile[2],packedFile[3]};
+        this.strLen = ByteBuffer.wrap(byteInt).getInt();
+        int value = 0;
+        String packedData = "";
+        
+        int count = ByteBuffer.wrap( new byte[] {packedFile[4],packedFile[5],packedFile[6],packedFile[7]}).getInt();
+        for(int i = 0; i<count;i++){
+            // char + 4 bytes = 5 bytes
+            occurences.put((char)(packedFile[8+5*i] & 0xFF),ByteBuffer.wrap(new byte[] {packedFile[9+5*i],packedFile[10+5*i],packedFile[11+5*i],packedFile[12+5*i]}).getInt());
+            
+        }
+        for(int i  = (count * 5)+7;i<packedFile.length;i++){
+            value = packedFile[i];
+            for(int j = 7;j>=0;j--){
+                if((value & (1<<(j) & 1))>0){
+                    packedData+="1";
+                }else{
+                    packedData+="0";
+                }
+                
+            }
+        }
+        this.dataPacked = packedData;
+        generateNodes(occurences);
+        generateData(0);
+        
     }
     public HuffmanCompression(String packedData,HashMap<Character,Integer> occurences){
         this.dataPacked = packedData;
@@ -46,8 +77,9 @@ public class HuffmanCompression {
             index++;
                 
         }
+        
         this.data = this.data+node.getLeaf();
-        if(index<this.dataPacked.length()){
+        if(index<this.dataPacked.length() && this.data.length() < this.strLen){
             generateData(index);
         }
     }
