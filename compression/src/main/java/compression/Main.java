@@ -40,10 +40,17 @@ public class Main {
                hfComp = new HuffmanCompression(inputData);
                String outputData = hfComp.getPackedData();
                int strLen = inputData.length();
+               int index = 0;
                try{
-                    ioOut = new BufferedOutputStream(new FileOutputStream("packed.zip"));
+                    for(int i = 0;i<args[2].length();i++){
+                        if(args[2].charAt(i)=='.') index = i;
+                    }
+                    ioOut = new BufferedOutputStream(new FileOutputStream(args[2].substring(0, index)+"hf"));
                     HashMap<Character,Integer> occurences  = hfComp.getOccurences();
-                    
+                    writeHeader(strLen,occurences,ioOut);
+                    writeBinaryString(hfComp.getPackedData(),ioOut);
+                    ioOut.flush();
+                    ioOut.close();
                } catch(Exception e){
                    System.out.println("Exception:"+e.getLocalizedMessage());
                }

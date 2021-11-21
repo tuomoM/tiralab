@@ -1,0 +1,9 @@
+-d '/Users/tuomomehtala/Documents/koulu/code/tiralab/compression/build/docs/javadoc'
+-doctitle 'compression API'
+-notimestamp 
+-quiet 
+-windowtitle 'compression API'
+'/Users/tuomomehtala/Documents/koulu/code/tiralab/compression/src/main/java/compression/TST.java'
+'/Users/tuomomehtala/Documents/koulu/code/tiralab/compression/src/main/java/compression/Main.java'
+'/Users/tuomomehtala/Documents/koulu/code/tiralab/compression/src/main/java/compression/HuffmanCompression.java'
+'/Users/tuomomehtala/Documents/koulu/code/tiralab/compression/src/main/java/compression/HuffmanNode.java'

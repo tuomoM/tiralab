@@ -5,7 +5,7 @@
 package compression;
 
 /**
- *
+ * Huffman node is used to build huffman tree.
  * @author tuomomehtala
  */
 public class HuffmanNode implements Comparable {
@@ -14,13 +14,22 @@ public class HuffmanNode implements Comparable {
     private int value;
     private char leaf;
     private boolean isLeaf;
-    
+    /**
+     * Constructor method used to add nodes that are combinations of two lower nodes
+     * @param left is the node with less occurences.
+     * @param right  the node with higher occurences.
+     */
     public HuffmanNode(HuffmanNode left, HuffmanNode right){
         this.left = left;
         this.right = right;
         this.value = right.getValue() + left.getValue();
         this.isLeaf = false;
     }
+    /**
+     * Constructor for creating leaves
+     * @param leaf is the character 
+     * @param value is the occurences.
+     */
     public HuffmanNode(char leaf, int value){
         this.value = value;
         this.leaf = leaf;
@@ -50,7 +59,7 @@ public class HuffmanNode implements Comparable {
             return 0;
         }
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported.. ever."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
