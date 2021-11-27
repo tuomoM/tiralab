@@ -12,7 +12,15 @@ repositories {
 dependencies {
     testImplementation     'junit:junit:4.13'
 }
-javadoc {
-    source = sourceSets.main.allJava
-    classpath = configurations.compile
+if (project.hasProperty("args")) {
+    ext.cmdargs = project.getProperty("args")
+} else { 
+    ext.cmdargs = ""
+}
+task cmdLineJavaExec(type: JavaExec) {
+    group = "Execution"
+    description = "Run the main class with JavaExecTask"
+    classpath = sourceSets.main.runtimeClasspath
+    main = mainClassName
+    args cmdargs.split()
 }

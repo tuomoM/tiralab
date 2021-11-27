@@ -26,7 +26,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -151,17 +151,15 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(byte%5B%5D)">HuffmanCompression</a></span>&#8203;(byte[]&nbsp;packedFile)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(compression.FileService,boolean)">HuffmanCompression</a></span>&#8203;(<a href="FileService.html" title="class in compression">FileService</a>&nbsp;fs,
+                  boolean&nbsp;compress)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String)">HuffmanCompression</a></span>&#8203;(java.lang.String&nbsp;data)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String,java.util.HashMap)">HuffmanCompression</a></span>&#8203;(java.lang.String&nbsp;packedData,
-                  java.util.HashMap&lt;java.lang.Character,&#8203;java.lang.Integer&gt;&nbsp;occurences)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">This is a constructor that can be used to test the encoding.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -187,14 +185,33 @@ extends java.lang.Object</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>java.util.HashMap&lt;java.lang.Character,&#8203;java.lang.String&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getKeys()">getKeys</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.util.HashMap&lt;java.lang.Character,&#8203;java.lang.Integer&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOccurences()">getOccurences</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPackedData()">getPackedData</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#saveCompressed()">saveCompressed</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Method saves the compressed file.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#saveData()">saveData</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Method saves the uncompressed data to file.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -220,32 +237,28 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
+<a id="&lt;init&gt;(compression.FileService,boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>HuffmanCompression</h4>
+<pre>public&nbsp;HuffmanCompression&#8203;(<a href="FileService.html" title="class in compression">FileService</a>&nbsp;fs,
+                          boolean&nbsp;compress)</pre>
+</li>
+</ul>
 <a id="&lt;init&gt;(java.lang.String)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>HuffmanCompression</h4>
-<pre>public&nbsp;HuffmanCompression&#8203;(java.lang.String&nbsp;data)</pre>
-</li>
-</ul>
-<a id="&lt;init&gt;(byte[])">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>HuffmanCompression</h4>
-<pre>public&nbsp;HuffmanCompression&#8203;(byte[]&nbsp;packedFile)</pre>
-</li>
-</ul>
-<a id="&lt;init&gt;(java.lang.String,java.util.HashMap)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>HuffmanCompression</h4>
-<pre>public&nbsp;HuffmanCompression&#8203;(java.lang.String&nbsp;packedData,
-                          java.util.HashMap&lt;java.lang.Character,&#8203;java.lang.Integer&gt;&nbsp;occurences)</pre>
+<pre>public&nbsp;HuffmanCompression&#8203;(java.lang.String&nbsp;data)</pre>
+<div class="block">This is a constructor that can be used to test the encoding.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>data</code> - the unpacked data</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -258,6 +271,26 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a id="saveData()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>saveData</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;saveData()</pre>
+<div class="block">Method saves the uncompressed data to file.</div>
+</li>
+</ul>
+<a id="saveCompressed()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>saveCompressed</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;saveCompressed()</pre>
+<div class="block">Method saves the compressed file. This includes the saved huffman tree for purposes of decoding.</div>
+</li>
+</ul>
 <a id="getPackedData()">
 <!--   -->
 </a>
@@ -279,10 +312,19 @@ extends java.lang.Object</pre>
 <a id="getOccurences()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getOccurences</h4>
 <pre class="methodSignature">public&nbsp;java.util.HashMap&lt;java.lang.Character,&#8203;java.lang.Integer&gt;&nbsp;getOccurences()</pre>
+</li>
+</ul>
+<a id="getKeys()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getKeys</h4>
+<pre class="methodSignature">public&nbsp;java.util.HashMap&lt;java.lang.Character,&#8203;java.lang.String&gt;&nbsp;getKeys()</pre>
 </li>
 </ul>
 </li>

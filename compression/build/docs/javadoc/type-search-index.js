@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"compression","l":"HuffmanCompression"},{"p":"compression","l":"HuffmanNode"},{"p":"compression","l":"Main"},{"p":"compression","l":"TST"}]
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"compression","l":"FileService"},{"p":"compression","l":"HuffmanCompression"},{"p":"compression","l":"HuffmanNode"},{"p":"compression","l":"Main"},{"p":"compression","l":"TST"}]

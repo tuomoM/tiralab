@@ -24,110 +24,87 @@ public class Main {
          HuffmanCompression hfComp;
          BufferedInputStream ioIn ;
          BufferedOutputStream ioOut;
-         String inputData = "";
+         boolean hf;
+         boolean compress;
+         FileService fs;
+         String fileName;
+         String outputFileName;
+         String extension;
          
          
-        // TODO code application logic here
-       if(args[0]=="-hf"){ //huffman
-           if(args[1]=="-c" && args[2]!=null){ //compress
-               try{
-               ioIn = new BufferedInputStream(new FileInputStream(args[2]));
-             
-               inputData = new String(readFile(ioIn));
-               }catch(Exception e){
-                   System.out.println("Exception:"+e.getLocalizedMessage());
-               }
-               hfComp = new HuffmanCompression(inputData);
-               String outputData = hfComp.getPackedData();
-               int strLen = inputData.length();
-               int index = 0;
-               try{
-                    for(int i = 0;i<args[2].length();i++){
-                        if(args[2].charAt(i)=='.') index = i;
-                    }
-                    ioOut = new BufferedOutputStream(new FileOutputStream(args[2].substring(0, index)+"hf"));
-                    HashMap<Character,Integer> occurences  = hfComp.getOccurences();
-                    writeHeader(strLen,occurences,ioOut);
-                    writeBinaryString(hfComp.getPackedData(),ioOut);
-                    ioOut.flush();
-                    ioOut.close();
-               } catch(Exception e){
-                   System.out.println("Exception:"+e.getLocalizedMessage());
-               }
-           }else if(args[1]== "-e" && args[2]!=null){ //extract
-               try{
-                    ioIn = new BufferedInputStream(new FileInputStream(args[2]));
-                    byte[] data = readFile(ioIn);
-                    
-               }catch (Exception e){
-                   System.out.println("Exception:"+e.getLocalizedMessage());
-               }
-            
-           }else System.out.println("Illegal arguments");
+        System.out.println("Compression start");  
+        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+       if(args.length<3){
+           System.out.println("Too few arguments");
+           return;
        }
-      
-      
+       if(args[0].equalsIgnoreCase("-hf")){ //huffman
+           System.out.println("Huffman");
+           hf = true;
+           if(args[1].equalsIgnoreCase("-c") && args[2]!=null){ //compress
+               System.out.println("Compress");
+               compress = true;
+                fileName = args[2];
+               int index = 0;
+               for(int i = 0;i<args[2].length();i++){
+                        if(args[2].charAt(i)=='.') index = i;
+                }
+               String outPutName = args[2].substring(0,index)+".hf";
+               
+               
+           
+             
+           }else if(args[1].equals("-e") && args[2]!=null){ //extract
+             compress = false;
+            
+           }else{ 
+               System.out.println("Illegal arguments");
+               return;
+           }
+       }else{
+           System.out.println("Illegal arguments:" + args[0]);
+           return;
+       }
+      if(hf){
+          if(args.length == 4){
+              extension = args[3];
+          }else{
+              if(compress){
+                  extension = ".hf";
+              }else{
+                  extension = ".txt";
+              }
+              
+          }
+          int index = 0;
+          for(int i = 0; i< args[2].length();i++){
+              if(args[2].charAt(i)=='.')index = i;
+          }
+          fileName = args[2];
+          outputFileName = args[2].substring(0, index)+extension;
+          try{
+              ioIn = new BufferedInputStream(new FileInputStream(fileName));
+              ioOut = new BufferedOutputStream(new FileOutputStream(outputFileName));
+              fs = new FileService(ioIn,ioOut);
+              hfComp = new HuffmanCompression(fs,compress);
+              if(compress){
+                  hfComp.saveCompressed();
+              }else{
+                  hfComp.saveData();
+              }
+              fs.close();
+          }catch(IOException e){
+              System.out.println("Exception : "+e.getLocalizedMessage());
+          }
+         
+          
+      }else{
+          
+      }
+       
+        System.out.println("Compression done");
     }
     
-    private static void writeBinaryString(String data, BufferedOutputStream ioOut){
-        int n = 0;
-        int buffer = 0;
-        for (int i = 0; i<data.length();i++){
-            buffer <<= 1;
-            if(data.charAt(i)=='1') buffer |=1;
-            n++;
-            if(n==8){
-                try{
-                    ioOut.write(buffer);
-                    buffer = 0;
-                    n=0;
-                }catch(Exception e){
-                    System.out.println("Exception:"+e.getLocalizedMessage());
-                }
-            }
-        }
-        if(n!=0){
-            buffer <<= (8-n);
-            try{
-                ioOut.write(buffer);
-            }catch (Exception e){
-                System.out.println("Exception"+e.getLocalizedMessage());
-            }
-        }
-    }
-    private static void writeHeader(int strL, HashMap<Character,Integer> occurences, BufferedOutputStream ioOut){
-        byte[] largeInt;
-        largeInt = ByteBuffer.allocate(4).putInt(strL).array();
-        
-        try{
-         
-            ioOut.write(largeInt);
-            
-            largeInt = ByteBuffer.allocate(4).putInt(occurences.size()).array();
-            ioOut.write(largeInt);
-          
-            int count = 0;
-            for(char a:occurences.keySet()){
-                ioOut.write(a);
-                ioOut.write(ByteBuffer.allocate(4).putInt(occurences.get(a)).array());
-                
-                
-            }
-            
-        }catch(Exception e){
-            System.out.println("Exception:"+e.getLocalizedMessage());
-        }
-
-    }
-    private static byte[] readFile(BufferedInputStream in){
-        byte[] data = null;
-        try{
-            data = in.readAllBytes();
-        }catch(IOException e){
-            System.out.println("Exception:"+e.getLocalizedMessage());
-        }
-      
-        return data;
-    }
+ 
     
 }
