@@ -111,13 +111,13 @@ public class FileService {
         outBuffer <<= 1; //add one bit to right
         if(bit) outBuffer |= 1;
         outIndex++;
-        if(outIndex == 7) writeOutput();
+        if(outIndex == 8) writeOutput();
     }
     public void writeByte(int value){
         if(!active) throw new IllegalStateException("No active input/output streams");    
         if(outIndex == 0){
             outBuffer = value;
-            outIndex = 7;
+            outIndex = 8;
             writeOutput();
         }else{
             for(int i = 7; i<=0;i--){
@@ -152,8 +152,8 @@ public class FileService {
     public void close(){
         if(!active) throw new IllegalStateException("No active input/output streams");
         this.active = false;
-        if(outBuffer>0){
-            outBuffer <<= (7-index); // pad last byte with zeroes to end.
+        if(outIndex>0){
+            outBuffer <<= (8-outIndex); // pad last byte with zeroes to end.
             writeOutput();
         }
         try{
