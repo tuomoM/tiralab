@@ -22,6 +22,7 @@ public class Main {
      */
     public static void main(String[] args) {
          HuffmanCompression hfComp;
+         Huffman hfc;
          BufferedInputStream ioIn ;
          BufferedOutputStream ioOut;
          boolean hf;
@@ -86,6 +87,7 @@ public class Main {
               ioIn = new BufferedInputStream(new FileInputStream(fileName));
               ioOut = new BufferedOutputStream(new FileOutputStream(outputFileName));
               fs = new FileService(ioIn,ioOut);
+              /**
               hfComp = new HuffmanCompression(fs,compress);
               if(compress){
                   hfComp.saveCompressed();
@@ -93,6 +95,8 @@ public class Main {
                   hfComp.saveData();
               }
               fs.close();
+              **/
+              hfc = new Huffman(fs,compress);
           }catch(IOException e){
               System.out.println("Exception : "+e.getLocalizedMessage());
           }

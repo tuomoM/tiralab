@@ -123,6 +123,7 @@ public class HuffmanCompression {
      * @param key the binary code for being generated.
      */
     private void generateKeys(HuffmanNode node,String key){
+        if (node == null) return;
         if(node.isLeaf()){
             this.keys.put(node.getLeaf(), key);
             return;

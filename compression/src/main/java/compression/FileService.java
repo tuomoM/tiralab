@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.NoSuchElementException;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.lang.Integer;
 
 /**
  *
@@ -26,8 +28,11 @@ public class FileService {
     public FileService(BufferedInputStream in, BufferedOutputStream out){
         this.ioIn = in;
         this.ioOut = out;
+        this.index = 0;
+        this.buffer = 0;
+        this.active = true;
         fillInBuffer();
-        active = true;
+       
         
     }
     public boolean inEmpty(){
@@ -108,7 +113,7 @@ public class FileService {
         outIndex++;
         if(outIndex == 7) writeOutput();
     }
-    public void writeInt(int value){
+    public void writeByte(int value){
         if(!active) throw new IllegalStateException("No active input/output streams");    
         if(outIndex == 0){
             outBuffer = value;
@@ -124,6 +129,26 @@ public class FileService {
             }
         }
     }
+    public void writeInt(int value){
+        byte[] b = ByteBuffer.allocate(4).putInt(value).array();
+        for(int i = 0; i<4;i++){
+            writeByte(b[i]);
+        }
+        
+    }
+    /**
+     * Reads 4 bytes from disk and returns it as integer
+     * @return integer value of 4 next bytes
+     */
+    public int readInt(){
+        byte[] b = new byte[4];
+        for(int i = 0; i<4;i++){
+            int x = readByteAsInt();
+            b[i] =(byte) (x & 0xff);
+        }
+        return ByteBuffer.wrap(b).getInt();
+        
+    }
     public void close(){
         if(!active) throw new IllegalStateException("No active input/output streams");
         this.active = false;
@@ -132,6 +157,7 @@ public class FileService {
             writeOutput();
         }
         try{
+            ioOut.flush();
             ioIn.close();
             ioOut.close();
         }catch(IOException e){
