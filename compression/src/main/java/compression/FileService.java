@@ -99,6 +99,7 @@ public class FileService {
     private void writeOutput(){
         try{
             ioOut.write(outBuffer);
+            ioOut.flush();
             outBuffer = 0;
             outIndex = 0;
             

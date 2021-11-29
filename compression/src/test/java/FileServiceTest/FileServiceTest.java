@@ -34,22 +34,116 @@ public class FileServiceTest {
          }
          try{
          fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.t")));
-         fs.writeBoolean(true);
+         fs.writeBoolean(false);
          fs.close();
          }catch(Exception e){
              System.out.println("Error"+e.getLocalizedMessage());
          }
 
          try{
-         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.t")));
+         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.te")));
       
          
-         assertTrue(fs.readBit());
+         assertTrue(!fs.readBit());
          fs.close();
          }catch(FileNotFoundException e){
              System.out.println("Error 2");
              
          }
      }
+     
+     @Test
+     public void writeByte(){
+             try{
+            FileOutputStream fio = new FileOutputStream("testfile.t");
+            fio.write(0);
+            fio.flush();
+            fio.close();
+         }catch(Exception e){
+             
+         }
+         try{
+         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.t")));
+         fs.writeByte(101);
+         fs.close();
+         }catch(Exception e){
+             System.out.println("Error"+e.getLocalizedMessage());
+         }
+
+         try{
+         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.te")));
+      
+         
+         assertTrue(fs.readByteAsInt()==101);
+         fs.close();
+         }catch(FileNotFoundException e){
+             System.out.println("Error 2");
+             
+         }
+         
+         
+         
+         
+         
+     }
+        @Test
+        public void writeInteger(){
+                       try{
+            FileOutputStream fio = new FileOutputStream("testfile.t");
+            fio.write(0);
+            fio.flush();
+            fio.close();
+         }catch(Exception e){
+             
+         }
+         try{
+         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.t")));
+         fs.writeInt(134111);
+         fs.close();
+         }catch(Exception e){
+             System.out.println("Error"+e.getLocalizedMessage());
+         }
+
+         try{
+         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.te")));
+      
+         
+         assertTrue(fs.readInt()==134111);
+         fs.close();
+         }catch(FileNotFoundException e){
+             System.out.println("Error 2");
+             
+         } 
+        }
+        @Test
+        public void writeChar(){
+                           try{
+            FileOutputStream fio = new FileOutputStream("testfile.t");
+            fio.write(0);
+            fio.flush();
+            fio.close();
+         }catch(Exception e){
+             
+         }
+         try{
+         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.t")));
+         fs.writeByte('a');
+         fs.close();
+         }catch(Exception e){
+             System.out.println("Error"+e.getLocalizedMessage());
+         }
+
+         try{
+         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.te")));
+      
+         
+         assertTrue((char)(fs.readByteAsInt()& 0xff) == 'a');
+         fs.close();
+         }catch(FileNotFoundException e){
+             System.out.println("Error 2");
+             
+         } 
+        }
+        
     
 }
