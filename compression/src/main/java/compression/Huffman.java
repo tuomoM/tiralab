@@ -63,17 +63,22 @@ public class Huffman {
         queue = new PriorityQueue<>(); 
         Node node1;
         Node node2;
+        char b;
         while(!fs.inEmpty()){
             try{
-            data+=(char)(fs.readByteAsInt()&0xff);
+            b =  (char)(fs.readByteAsInt()&0xff);  
+            data+=b;
+            occurences.put(b,BigInteger.ONE.add(occurences.getOrDefault(b, BigInteger.ZERO)));
             lenght++;
             }catch(Exception e){
                 System.out.println("Eof - reading the file");
             }
         }
+        /**
         for(char a:data.toCharArray()){
             occurences.put(a,BigInteger.ONE.add(occurences.getOrDefault(a, BigInteger.ZERO)));
         }
+        **/ 
         for(char a: occurences.keySet()){
             queue.add(new Node(a,occurences.get(a)));
         }
@@ -97,8 +102,8 @@ public class Huffman {
         String buffer = "";
         for(char a:data.toCharArray()){
             buffer = keys.get(a);
-            for(char b:buffer.toCharArray()){
-                if(b=='1'){
+            for(char c:buffer.toCharArray()){
+                if(c=='1'){
                     fs.writeBoolean(true);
                 }else{
                     fs.writeBoolean(false);
