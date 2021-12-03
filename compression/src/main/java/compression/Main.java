@@ -23,20 +23,21 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args){
+    public static void Mmain(String[] args){
          BufferedInputStream ioIn ;
          BufferedOutputStream ioOut;
          FileService fs;
          try{
          fs = new FileService(new BufferedInputStream(new FileInputStream("test.txt")), new BufferedOutputStream(new FileOutputStream("test.out")));
-         for(int i = 0;i <100;i++){
+         for(int i = 0;i <3;i++){
+             System.out.println("looping : "+i);
              fs.writeByte(1);
              fs.writeBoolean(i%3==0);
             // System.out.println(fs.readByteAsInt());
              //System.out.println(fs.readBit());
          }
          
-         
+         fs.close();
          //for(int i = 0; i<100; i++){
            //  System.out.println(fs.readByteAsInt());
          //}
@@ -47,7 +48,7 @@ public class Main {
        
     }
     
-    public static void Mmain(String[] args) {
+    public static void main(String[] args) {
 
          Huffman hfc;
          BufferedInputStream ioIn ;

@@ -106,7 +106,7 @@ public class FileService {
     private void writeOutput(){
         try{
             ioOut.write(outBuffer);
-            ioOut.flush();
+        
             System.out.println("wrote byte: "+outBuffer);
             outBuffer = 0;
             outIndex = 0;
@@ -125,17 +125,26 @@ public class FileService {
     public void writeByte(int value){
         if(!active) throw new IllegalStateException("No active input/output streams");    
         if(outIndex == 0){
+            System.out.println("writing a full bit");
             outBuffer = value;
             outIndex = 8;
             writeOutput();
         }else{
-            for(int i = 7; i<=0;i--){
-                 if(value << ~i<0){
-                     writeBoolean(true);
-                 }else{
-                     writeBoolean(false);
-                 }
-            }
+              for (int i = 0; i < 8; i++) {
+            boolean bit = ((value >>> (8 - i - 1)) & 1) == 1;
+            writeBoolean(bit);
+                  System.out.println("wrote out: "+bit);
+        }
+//            for(int i = 7; i<=0;i--){
+//                System.out.println("adding individual bits: "+i);
+//                 if(value << ~i<0){
+//                     writeBoolean(true);
+//                     System.out.println("true");
+//                 }else{
+//                     writeBoolean(false);
+//                     System.out.println("false");
+//                 }
+//            }
         }
     }
     public void writeInt(int value){
