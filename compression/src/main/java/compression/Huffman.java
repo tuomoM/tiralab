@@ -68,17 +68,17 @@ public class Huffman {
             try{
             b =  (char)(fs.readByteAsInt()&0xff);  
             data+=b;
-            occurences.put(b,BigInteger.ONE.add(occurences.getOrDefault(b, BigInteger.ZERO)));
+           
             lenght++;
             }catch(Exception e){
                 System.out.println("Eof - reading the file");
             }
         }
-        /**
+        
         for(char a:data.toCharArray()){
             occurences.put(a,BigInteger.ONE.add(occurences.getOrDefault(a, BigInteger.ZERO)));
         }
-        **/ 
+        
         for(char a: occurences.keySet()){
             queue.add(new Node(a,occurences.get(a)));
         }

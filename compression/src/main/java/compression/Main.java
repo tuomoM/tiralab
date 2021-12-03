@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+
 /**
  *
  * @author tuomomehtala
@@ -20,7 +23,31 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args){
+         BufferedInputStream ioIn ;
+         BufferedOutputStream ioOut;
+         FileService fs;
+         try{
+         fs = new FileService(new BufferedInputStream(new FileInputStream("test.txt")), new BufferedOutputStream(new FileOutputStream("test.out")));
+         for(int i = 0;i <100;i++){
+             fs.writeByte(1);
+             fs.writeBoolean(i%3==0);
+            // System.out.println(fs.readByteAsInt());
+             //System.out.println(fs.readBit());
+         }
+         
+         
+         //for(int i = 0; i<100; i++){
+           //  System.out.println(fs.readByteAsInt());
+         //}
+         }catch(Exception e){
+            System.out.println("error");
+         }
+     
+       
+    }
+    
+    public static void Mmain(String[] args) {
 
          Huffman hfc;
          BufferedInputStream ioIn ;
@@ -35,6 +62,7 @@ public class Main {
          
         System.out.println("Compression start");  
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        
        if(args.length<3){
            System.out.println("Too few arguments");
            return;

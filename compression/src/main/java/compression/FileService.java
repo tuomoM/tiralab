@@ -24,12 +24,14 @@ public class FileService {
     private int outBuffer;
     private int outIndex;  
     private boolean active;
+    private byte[] outBufferall;
     
     public FileService(BufferedInputStream in, BufferedOutputStream out){
         this.ioIn = in;
         this.ioOut = out;
         this.index = 0;
         this.buffer = 0;
+        this.outBuffer = 0;
         this.active = true;
         fillInBuffer();
        
@@ -41,7 +43,9 @@ public class FileService {
     private void fillInBuffer(){
         if(buffer == 0 && index > -1){
             try{
+                
                 buffer = ioIn.read();
+                System.out.println("read byte:"+buffer);
                 if(buffer == -1){
                     index = -1;
                     buffer= 0;        
@@ -72,9 +76,12 @@ public class FileService {
     public int readByteAsInt(){
         if(!active) throw new IllegalStateException("No active input/output streams");
         int data = 0;
+      
         if(index == 8){
+      
             data = buffer;
             index = 0;
+            buffer = 0;
             fillInBuffer();
             return data;
         }else{
@@ -100,6 +107,7 @@ public class FileService {
         try{
             ioOut.write(outBuffer);
             ioOut.flush();
+            System.out.println("wrote byte: "+outBuffer);
             outBuffer = 0;
             outIndex = 0;
             
