@@ -8,9 +8,12 @@ The deadline of getting this working is looming. The treadfull conclusion is lik
 This week i spent about 20 hours working on this project.
 
 ## next week
----
-*there is still a diminishing hope that i will manage to complete the huffman next week*
-Should a miracle happen and file interface would start working, **i could give LZ a try**
+------
+
+*there is still a diminishing hope that i will manage to complete the huffman next week.*
+Should a miracle happen and file interface would start working, **i could give LZ a try.**
+
 I am assuming this pitiful project is barely if at all able to get through this course.
 -------
+
 **Now my days are swifter than a post: They flee away, they see no good**
