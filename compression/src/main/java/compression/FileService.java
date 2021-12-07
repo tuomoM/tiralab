@@ -25,6 +25,7 @@ public class FileService {
     private int outIndex;  
     private boolean active;
     private byte[] outBufferall;
+    private int inCounter,outCounter;
     
     public FileService(BufferedInputStream in, BufferedOutputStream out){
         this.ioIn = in;
@@ -44,13 +45,14 @@ public class FileService {
         if(buffer == 0 && index > -1){
             try{
                 
-                buffer = ioIn.read();
-                System.out.println("read byte:"+buffer);
+                this.buffer = ioIn.read();
+             //   System.out.println("read byte:"+buffer);
                 if(buffer == -1){
                     index = -1;
                     buffer= 0;        
                 }else{
                 index = 8;
+                inCounter++;
                 }
             }catch(Exception e){
                 System.out.println("EOF: "+e.getLocalizedMessage());
@@ -62,16 +64,55 @@ public class FileService {
     public boolean readBit(){ 
         if(!active) throw new IllegalStateException("No active input/output streams");
        
-        if(inEmpty()) throw new NoSuchElementException("Eof");
+        if(inEmpty()) throw new NoSuchElementException("Eof at: "+inCounter);
         
         index --;
    
         
         boolean value = ((buffer >> index)& 1)==1;
-        if(index == 0) fillInBuffer();
+        if(index <= 0) {
+            index = 0;
+            buffer = 0;
+            fillInBuffer();
+        }
         return value;
         
       
+    }
+    public char readChar(){
+       
+        if(!active) throw new IllegalStateException("No active input/output streams");
+        int data = 0;
+      
+        if(index == 8){
+      
+            data = buffer;
+            index = 0;
+            buffer = 0;
+            fillInBuffer();
+          //  System.out.println("returning char: "+data);
+            return (char)(data & 0xff);
+        }else{
+            data = buffer;
+            int localIndex = index;
+            buffer = 0;
+            index = 0;
+            fillInBuffer();
+            if(inEmpty()) throw new NoSuchElementException("Eof");
+          //  System.out.println("moving : " +(8-localIndex)+" bits");
+            data <<= (8-localIndex);
+            index = localIndex;
+            data |= (buffer >>> index);
+           //   System.out.println("returning char: "+data);
+            return (char)(data & 0xff) ;
+            
+            
+            
+            
+        }
+        
+        
+        
     }
     public int readByteAsInt(){
         if(!active) throw new IllegalStateException("No active input/output streams");
@@ -94,7 +135,7 @@ public class FileService {
             data <<= (8-localIndex);
             index = localIndex;
             data |= (buffer >>> index);
-            return data;
+            return data%256;
             
             
             
@@ -103,13 +144,20 @@ public class FileService {
       
         
     }
+    public int getInCounter(){
+        return this.inCounter;
+    }
+    public int getOutCounter(){
+        return this.outCounter;
+    }
     private void writeOutput(){
         try{
             ioOut.write(outBuffer);
         
-            System.out.println("wrote byte: "+outBuffer);
+          //  System.out.println("wrote byte: "+outBuffer);
             outBuffer = 0;
             outIndex = 0;
+            outCounter++;
             
         }catch(IOException e){
             System.out.println("Exception in writing to file: "+e.getLocalizedMessage() );
@@ -119,21 +167,23 @@ public class FileService {
         if(!active) throw new IllegalStateException("No active input/output streams");
         outBuffer <<= 1; //add one bit to right
         if(bit) outBuffer |= 1;
+         //System.out.println("wrote out: "+bit);
         outIndex++;
-        if(outIndex == 8) writeOutput();
+        if(outIndex >= 8) writeOutput();
     }
     public void writeByte(int value){
         if(!active) throw new IllegalStateException("No active input/output streams");    
         if(outIndex == 0){
-            System.out.println("writing a full bit");
+           // System.out.println("writing a full byte");
             outBuffer = value;
             outIndex = 8;
             writeOutput();
         }else{
+          //  System.out.println("writing byte bit by bit");
               for (int i = 0; i < 8; i++) {
             boolean bit = ((value >>> (8 - i - 1)) & 1) == 1;
             writeBoolean(bit);
-                  System.out.println("wrote out: "+bit);
+                 
         }
 //            for(int i = 7; i<=0;i--){
 //                System.out.println("adding individual bits: "+i);

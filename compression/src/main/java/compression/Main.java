@@ -28,13 +28,15 @@ public class Main {
          BufferedOutputStream ioOut;
          FileService fs;
          try{
-         fs = new FileService(new BufferedInputStream(new FileInputStream("test.txt")), new BufferedOutputStream(new FileOutputStream("test.out")));
-         for(int i = 0;i <3;i++){
+         fs = new FileService(new BufferedInputStream(new FileInputStream("test.out")), new BufferedOutputStream(new FileOutputStream("test.txt")));
+         for(int i = 0;i <1;i++){
              System.out.println("looping : "+i);
-             fs.writeByte(1);
-             fs.writeBoolean(i%3==0);
-            // System.out.println(fs.readByteAsInt());
-             //System.out.println(fs.readBit());
+            fs.writeInt(100000+i);
+             System.out.println(fs.readInt());
+            // fs.writeByte('a');
+             //fs.writeBoolean(i%3==0);
+           //  System.out.println(fs.readChar());
+           //  System.out.println(fs.readBit());
          }
          
          fs.close();

@@ -96,6 +96,7 @@ public class Huffman {
         generateKeys(root,"");
         //write out the tree
         encodeTree(root);
+        System.out.println("Tree encoded at counter :"+fs.getOutCounter());
         //write out the lenght of the input 
         fs.writeInt(lenght);
         //write out the data
@@ -111,6 +112,7 @@ public class Huffman {
             }
         }
         //close files
+        System.out.println("closing at: "+fs.getOutCounter());
         fs.close();
         
         
@@ -118,6 +120,7 @@ public class Huffman {
     private void extract(){
         
         this.root = decodeTree();
+        System.out.println("Tree decoded");
         extractData();
         fs.close();
         
@@ -159,7 +162,7 @@ public class Huffman {
     }
     private Node decodeTree(){
         if(fs.readBit()){
-           return new Node( (char)( fs.readByteAsInt() & 0xff),BigInteger.ONE);
+           return new Node( fs.readChar(),BigInteger.ONE);
         }else{
             Node left = decodeTree();
             Node right = decodeTree();
