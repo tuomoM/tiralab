@@ -24,28 +24,19 @@ public class Main {
      * @param args the command line arguments
      */
     public static void Mmain(String[] args){
-         BufferedInputStream ioIn ;
-         BufferedOutputStream ioOut;
-         FileService fs;
-         try{
-         fs = new FileService(new BufferedInputStream(new FileInputStream("test.out")), new BufferedOutputStream(new FileOutputStream("test.txt")));
-         for(int i = 0;i <1;i++){
-             System.out.println("looping : "+i);
-            fs.writeInt(100000+i);
-             System.out.println(fs.readInt());
-            // fs.writeByte('a');
-             //fs.writeBoolean(i%3==0);
-           //  System.out.println(fs.readChar());
-           //  System.out.println(fs.readBit());
-         }
-         
-         fs.close();
-         //for(int i = 0; i<100; i++){
-           //  System.out.println(fs.readByteAsInt());
-         //}
-         }catch(Exception e){
-            System.out.println("error");
-         }
+        TST2 tst = new TST2<Integer>();
+        //for(int i = 0; i < 256;i++) tst.put(""+(char)i, i);
+         tst.put("p", 0);
+         tst.put("q", 2);
+        tst.put("o", 1);
+     
+        tst.put("om", 256);
+        tst.put("ome", 257);
+        tst.put("omen", 258);
+        tst.put("omena", 259);
+        System.out.println("tst test");
+        System.out.println(tst.longestPrefix("omana"));
+ 
      
        
     }
@@ -55,12 +46,14 @@ public class Main {
          Huffman hfc;
          BufferedInputStream ioIn ;
          BufferedOutputStream ioOut;
-         boolean hf;
-         boolean compress;
+         boolean hf = false;
+         boolean lzw = false;
+         boolean compress = false;
          FileService fs;
          String fileName;
          String outputFileName;
          String extension;
+         Lz lz;
          
          
         System.out.println("Compression start");  
@@ -73,6 +66,14 @@ public class Main {
        if(args[0].equalsIgnoreCase("-hf")){ //huffman
            System.out.println("Huffman");
            hf = true;
+           
+       } else if(args[0].equalsIgnoreCase("-lz")){
+          
+       lzw = true;
+       }else{
+           System.out.println("Illegal arguments:" + args[0]);
+           return;
+       }
            if(args[1].equalsIgnoreCase("-c") && args[2]!=null){ //compress
                System.out.println("Compress");
                compress = true;
@@ -93,10 +94,7 @@ public class Main {
                System.out.println("Illegal arguments");
                return;
            }
-       }else{
-           System.out.println("Illegal arguments:" + args[0]);
-           return;
-       }
+      
       if(hf){
           if(args.length == 4){
               extension = args[3];
@@ -133,7 +131,46 @@ public class Main {
           }
          
           
-      }else{
+      }else if(lzw){
+              if(args.length == 4){
+              extension = args[3];
+          }else{
+              if(compress){
+                  extension = ".lz";
+              }else{
+                  extension = ".txt";
+              }
+              
+          }
+          int index = 0;
+          for(int i = 0; i< args[2].length();i++){
+              if(args[2].charAt(i)=='.')index = i;
+          }
+          fileName = args[2];
+          outputFileName = args[2].substring(0, index)+extension;
+            try{
+              ioIn = new BufferedInputStream(new FileInputStream(fileName));
+              ioOut = new BufferedOutputStream(new FileOutputStream(outputFileName));
+              fs = new FileService(ioIn,ioOut);
+              /**
+              hfComp = new HuffmanCompression(fs,compress);
+              if(compress){
+                  hfComp.saveCompressed();
+              }else{
+                  hfComp.saveData();
+              }
+              fs.close();
+              **/
+              lz = new Lz(fs);
+              if(compress){
+                  lz.compress();
+              }else{
+                  lz.extract();
+              }
+             
+          }catch(IOException e){
+              System.out.println("Exception : "+e.getLocalizedMessage());
+          }
           
       }
        

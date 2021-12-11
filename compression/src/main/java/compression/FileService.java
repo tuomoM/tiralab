@@ -197,6 +197,37 @@ public class FileService {
 //            }
         }
     }
+    /**
+     * Writes integer with the predefined length as bits out.
+     * Will throw exception if the length is larger than max int length 32
+     * @param value the value to be written
+     * @param length the amount of bits to be used
+     */
+    public void writeInt(int value, int length){
+        if(length == 32 ){
+            writeInt(value);
+        }
+        if(length < 1 || length > 32) throw new IllegalStateException("illegal int length");
+        for(int i = 0; i<length;i++){
+               boolean bit = ((value >>> (length - i - 1)) & 1) == 1;
+               writeBoolean(bit);
+        }
+    }
+    public int readInt(int length){
+        if(length == 32) return readInt();
+        if(length < 1 || length > 32) throw new IllegalStateException("illegal int length");
+        int result = 0;
+        for(int i = 0; i< length;i++){
+            boolean bit = readBit();
+            result <<= 1;
+            if(bit){
+                result |= 1;
+            }
+        }
+        
+        
+        return result;
+    }
     public void writeInt(int value){
         byte[] b = ByteBuffer.allocate(4).putInt(value).array();
         for(int i = 0; i<4;i++){
