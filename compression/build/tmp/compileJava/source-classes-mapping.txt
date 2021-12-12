@@ -1,14 +1,14 @@
-compression/Huffman.java
- compression.Huffman
- compression.Huffman$Node
+compression/TST2.java
+ compression.Node
+ compression.TST2
 compression/FileService.java
  compression.FileService
 compression/TST.java
  compression.TST
  compression.TST$Node
-compression/TST2.java
- compression.Node
- compression.TST2
+compression/Huffman.java
+ compression.Huffman
+ compression.Huffman$Node
 compression/Main.java
  compression.Main
 compression/Lz.java

@@ -35,9 +35,7 @@ public class Main {
         tst.put("ome", 257);
         tst.put("omen", 258);
         tst.put("omena", 259);
-        System.out.println("tst test");
-        System.out.println(tst.longestPrefix("omana"));
-        System.out.println("longest prefix with line break"+ tst.longestPrefix(""+(char)10+"aa"));
+    
  
      
        

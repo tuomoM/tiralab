@@ -85,7 +85,7 @@ public class TST2<Value> {
         else if(d<key.length()-1) return get(x.getMid(),key, d+1);
         else return x;
     }
-    public String longestPrefix(String key){
+    public String longestPrefix(String key,boolean debug){
       //  if(key.charAt(0)==(char)10)System.out.println("ERROR"+"key: "+key);
         int d = 0;
         int length = 0;
@@ -94,15 +94,17 @@ public class TST2<Value> {
         while(x!=null && d<key.length()){
          
              char c = key.charAt(d);
+             if(debug) System.out.println("searching for: "+c+" key length: "+key.length());
             if(c>x.getChar()) x = x.getLeft();
             else if(c<x.getChar()) x = x.getRight();
             else{
                 d++;
                 x= x.getMid();
             }
-                if(x==null) length = d;
-            
+                if(x==null || d == key.length()) length = d;
+            if(debug) System.out.println("d: "+d);
         }
+        if(debug) System.out.println("returning lenght: "+length);
         return key.substring(0, length);
     }
 }
