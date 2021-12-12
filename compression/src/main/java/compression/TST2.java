@@ -64,6 +64,7 @@ public class TST2<Value> {
         if(x==null){
             x = new Node<Value>();
             x.setChar(c);
+           // System.out.println("creating new node: "+c);
         }
         if(c>x.getChar()) x.setLeft(put(x.getLeft(),key,val,d));
         else if(c<x.getChar()) x.setRight(put(x.getRight(),key,val,d));
@@ -85,7 +86,7 @@ public class TST2<Value> {
         else return x;
     }
     public String longestPrefix(String key){
-       
+      //  if(key.charAt(0)==(char)10)System.out.println("ERROR"+"key: "+key);
         int d = 0;
         int length = 0;
         Node<Value> x = root;

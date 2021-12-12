@@ -29,11 +29,15 @@ public class Lz {
             tst.put(""+(char)(i), i);
             
         }
+     
         while(!fs.inEmpty()){
             input+=fs.readChar();
         }
         while(input.length()>0){
             String sub = tst.longestPrefix(input);
+            if(sub.length()==0){
+             if(input.length()==1)break;
+            }
             fs.writeInt((int)tst.get(sub), W);
             if(i<Max && sub.length()<input.length()){
                 i++;

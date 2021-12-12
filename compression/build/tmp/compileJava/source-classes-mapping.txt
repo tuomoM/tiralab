@@ -6,10 +6,10 @@ compression/FileService.java
 compression/TST.java
  compression.TST
  compression.TST$Node
+compression/TST2.java
+ compression.Node
+ compression.TST2
 compression/Main.java
  compression.Main
 compression/Lz.java
  compression.Lz
-compression/TST2.java
- compression.Node
- compression.TST2
