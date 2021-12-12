@@ -1,7 +1,8 @@
 # Implementation document
 -----
-##Components:
+## Components:
 ### Main program
+
 Main program has just the user interface. It provides the possiblity to compress and extract using both Huffman and LZW methods.
 The program can be run with this command (example):
 ---
@@ -11,7 +12,7 @@ here there are 3 arguments for the code.
 1. 1st arguments can be -lz for LZW or -hf for Huffman.
 2. 2nd argument is either -c for compress or -e for extract
 3. 3rd argument is the file name you want to compress or extract.
-there is additional 4th argument that you can use to specify the target file extension. default in compression is lz for LZW and hf for Huffman and .txt for extracted file.
+4. there is additional 4th argument that you can use to specify the target file extension. default in compression is lz for LZW and hf for Huffman and .txt for extracted file.
 
 ### fileservice
 This class provides the tools for writing and reading bits from and to disk. It has internal buffering using one byte. The main methods are write/read boolean (bit) and write / read byte.
