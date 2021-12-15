@@ -11,10 +11,103 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import org.junit.Test;
-
+import compression.FileService;
+import compression.Huffman;
+import java.io.FileOutputStream;
+import java.io.IOException;
 public class HuffmanTest {
     String inputData = "aaabbca";
-   
+    String testdata = "And the LORD said unto Satan, Whence comest thou? Then Satan answered the LORD, and said, From going to and fro in the earth, and from walking up and down in it.";
+    FileService fs;
+    
+    @Test
+    public void SimpleHuffmanCompresses(){
+           try{
+            FileOutputStream fio = new FileOutputStream("testfile.t");
+            fio.write(0);
+            fio.flush();
+            fio.close();
+         }catch(Exception e){
+             
+         }
+           try{
+           fs = new FileService("testfile.t","testfile.out");
+           
+           
+           for(int i = 0; i<inputData.length();i++){
+               fs.writeByte(inputData.charAt(i));
+           }
+           fs.close();
+           fs = new FileService("testfile.out","testfile.hf");
+           Huffman hf = new Huffman(fs,true);
+           
+           fs = new FileService("testfile.hf","testfile.out");
+//           boolean[] ok = new boolean[10];
+//           //1110101001
+//           boolean[] expected = {true,true,true,false,true,false,true,false,false,true};
+//           
+//           for(int i = 0; i< 10; i++){
+//               ok[i]=fs.readBit();
+//               System.out.println(ok[i]);
+//           }
+//         
+            hf = new Huffman(fs,false);
+            fs = new FileService("testfile.out","testfile.hf");
+            String result = "";
+            while(!fs.inEmpty()){
+                result+=fs.readChar();
+            }
+            
+            assertTrue(result.equals(inputData));
+           }catch (IOException e){
+               System.out.println("error "+e.getLocalizedMessage());
+           }
+           
+    }
+    @Test
+    public void ComplexHuffmanCompresses(){
+           try{
+            FileOutputStream fio = new FileOutputStream("testfile.t");
+            fio.write(0);
+            fio.flush();
+            fio.close();
+         }catch(Exception e){
+             
+         }
+           try{
+           fs = new FileService("testfile.t","testfile.out");
+           
+           
+           for(int i = 0; i<testdata.length();i++){
+               fs.writeByte(testdata.charAt(i));
+           }
+           fs.close();
+           fs = new FileService("testfile.out","testfile.hf");
+           Huffman hf = new Huffman(fs,true);
+           
+           fs = new FileService("testfile.hf","testfile.out");
+//           boolean[] ok = new boolean[10];
+//           //1110101001
+//           boolean[] expected = {true,true,true,false,true,false,true,false,false,true};
+//           
+//           for(int i = 0; i< 10; i++){
+//               ok[i]=fs.readBit();
+//               System.out.println(ok[i]);
+//           }
+//         
+            hf = new Huffman(fs,false);
+            fs = new FileService("testfile.out","testfile.hf");
+            String result = "";
+            while(!fs.inEmpty()){
+                result+=fs.readChar();
+            }
+            
+            assertTrue(result.equals(testdata));
+           }catch (IOException e){
+               System.out.println("error "+e.getLocalizedMessage());
+           }
+           
+    }
 //   @Test
 //    public void HuffmanReturnsData(){
 //        HuffmanCompression compressor = new HuffmanCompression(inputData);

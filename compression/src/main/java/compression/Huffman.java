@@ -96,7 +96,7 @@ public class Huffman {
         generateKeys(root,"");
         //write out the tree
         encodeTree(root);
-        System.out.println("Tree encoded at counter :"+fs.getOutCounter());
+        
         //write out the lenght of the input 
         fs.writeInt(lenght);
         //write out the data

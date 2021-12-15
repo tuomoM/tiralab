@@ -99,6 +99,7 @@ public class FileServiceTest {
          try{
          fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.t")));
          fs.writeInt(134111);
+        
          fs.close();
          }catch(Exception e){
              System.out.println("Error"+e.getLocalizedMessage());
@@ -114,6 +115,36 @@ public class FileServiceTest {
              System.out.println("Error 2");
              
          } 
+        }
+        @Test
+        public void writeShortInt(){
+                           try{
+            FileOutputStream fio = new FileOutputStream("testfile.t");
+            fio.write(0);
+            fio.flush();
+            fio.close();
+         }catch(Exception e){
+             
+         }
+         try{
+         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.t")));
+         fs.writeInt(130,12);
+        
+         fs.close();
+         }catch(Exception e){
+             System.out.println("Error"+e.getLocalizedMessage());
+         }
+
+         try{
+         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.te")));
+      
+         
+         assertTrue(fs.readInt(12)==130);
+         fs.close();
+         }catch(FileNotFoundException e){
+             System.out.println("Error 2");
+             
+         }
         }
         @Test
         public void writeChar(){
@@ -137,12 +168,46 @@ public class FileServiceTest {
          fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.te")));
       
          
-         assertTrue((char)(fs.readByteAsInt()& 0xff) == 'a');
+         assertTrue(fs.readChar() == 'a');
          fs.close();
          }catch(FileNotFoundException e){
              System.out.println("Error 2");
              
-         } 
+         }
+        
+        }
+        @Test
+        public void testBitByteSeq(){
+         try{
+            FileOutputStream fio = new FileOutputStream("testfile.t");
+            fio.write(0);
+            fio.flush();
+            fio.close();
+         }catch(Exception e){
+             
+         }
+         try{
+         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.t")));
+         fs.writeBoolean(false);
+         fs.writeByte('a');
+         fs.writeBoolean(true);
+         fs.writeByte('b');
+         fs.close();
+         }catch(Exception e){
+             System.out.println("Error"+e.getLocalizedMessage());
+         }
+
+         try{
+         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.te")));
+      
+         
+         assertTrue(!fs.readBit()&&fs.readChar()=='a');
+         fs.close();
+         }catch(FileNotFoundException e){
+             System.out.println("Error 2");
+             
+         }            
+            
         }
         
     

@@ -3,9 +3,6 @@ compression/TST2.java
  compression.TST2
 compression/FileService.java
  compression.FileService
-compression/TST.java
- compression.TST
- compression.TST$Node
 compression/Huffman.java
  compression.Huffman
  compression.Huffman$Node

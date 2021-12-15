@@ -11,6 +11,9 @@ import java.util.NoSuchElementException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.lang.Integer;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.File;
 
 /**
  *
@@ -27,6 +30,7 @@ public class FileService {
     private byte[] outBufferall;
     private int inCounter,outCounter;
     
+    
     public FileService(BufferedInputStream in, BufferedOutputStream out){
         this.ioIn = in;
         this.ioOut = out;
@@ -37,6 +41,17 @@ public class FileService {
         fillInBuffer();
        
         
+    }
+    public FileService(String inputFile,String outputFile) throws IOException{
+       
+               ioIn = new BufferedInputStream(new FileInputStream(inputFile));
+              ioOut = new BufferedOutputStream(new FileOutputStream(outputFile));
+               this.index = 0;
+        this.buffer = 0;
+        this.outBuffer = 0;
+        this.active = true;
+        fillInBuffer();
+       
     }
     public boolean inEmpty(){
         return index == -1;

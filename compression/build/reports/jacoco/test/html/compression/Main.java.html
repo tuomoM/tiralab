@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">compression</a> &gt; <a href="index.source.html" class="el_package">compression</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package compression;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+
+/**
+ *
+ * @author tuomomehtala
+ */
+<span class="nc" id="L21">public class Main {</span>
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void Mmain(String[] args){
+<span class="nc" id="L27">        TST2 tst = new TST2&lt;Integer&gt;();</span>
+        //for(int i = 0; i &lt; 256;i++) tst.put(&quot;&quot;+(char)i, i);
+<span class="nc" id="L29">         tst.put(&quot;p&quot;, 0);</span>
+<span class="nc" id="L30">         tst.put(&quot;q&quot;, 2);</span>
+<span class="nc" id="L31">        tst.put(&quot;o&quot;, 1);</span>
+<span class="nc" id="L32">        tst.put(&quot;&quot;+(char)10, 10);</span>
+     
+<span class="nc" id="L34">        tst.put(&quot;om&quot;, 256);</span>
+<span class="nc" id="L35">        tst.put(&quot;ome&quot;, 257);</span>
+<span class="nc" id="L36">        tst.put(&quot;omen&quot;, 258);</span>
+<span class="nc" id="L37">        tst.put(&quot;omena&quot;, 259);</span>
+    
+ 
+     
+       
+<span class="nc" id="L42">    }</span>
+    
+    public static void main(String[] args) {
+
+         Huffman hfc;
+         BufferedInputStream ioIn ;
+         BufferedOutputStream ioOut;
+<span class="nc" id="L49">         boolean hf = false;</span>
+<span class="nc" id="L50">         boolean lzw = false;</span>
+<span class="nc" id="L51">         boolean compress = false;</span>
+         FileService fs;
+         String fileName;
+         String outputFileName;
+         String extension;
+         Lz lz;
+         
+         
+<span class="nc" id="L59">        System.out.println(&quot;Compression start&quot;);  </span>
+<span class="nc" id="L60">        System.out.println(&quot;Working Directory = &quot; + System.getProperty(&quot;user.dir&quot;));</span>
+        
+<span class="nc bnc" id="L62" title="All 2 branches missed.">       if(args.length&lt;3){</span>
+<span class="nc" id="L63">           System.out.println(&quot;Too few arguments&quot;);</span>
+<span class="nc" id="L64">           return;</span>
+       }
+<span class="nc bnc" id="L66" title="All 2 branches missed.">       if(args[0].equalsIgnoreCase(&quot;-hf&quot;)){ //huffman</span>
+<span class="nc" id="L67">           System.out.println(&quot;Huffman&quot;);</span>
+<span class="nc" id="L68">           hf = true;</span>
+           
+<span class="nc bnc" id="L70" title="All 2 branches missed.">       } else if(args[0].equalsIgnoreCase(&quot;-lz&quot;)){</span>
+          
+<span class="nc" id="L72">       lzw = true;</span>
+       }else{
+<span class="nc" id="L74">           System.out.println(&quot;Illegal arguments:&quot; + args[0]);</span>
+<span class="nc" id="L75">           return;</span>
+       }
+<span class="nc bnc" id="L77" title="All 4 branches missed.">           if(args[1].equalsIgnoreCase(&quot;-c&quot;) &amp;&amp; args[2]!=null){ //compress</span>
+<span class="nc" id="L78">               System.out.println(&quot;Compress&quot;);</span>
+<span class="nc" id="L79">               compress = true;</span>
+<span class="nc" id="L80">                fileName = args[2];</span>
+<span class="nc" id="L81">               int index = 0;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">               for(int i = 0;i&lt;args[2].length();i++){</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">                        if(args[2].charAt(i)=='.') index = i;</span>
+                }
+<span class="nc" id="L85">               String outPutName = args[2].substring(0,index)+&quot;.hf&quot;;</span>
+               
+               
+           
+             
+<span class="nc bnc" id="L90" title="All 4 branches missed.">           }else if(args[1].equals(&quot;-e&quot;) &amp;&amp; args[2]!=null){ //extract</span>
+<span class="nc" id="L91">             compress = false;</span>
+            
+           }else{ 
+<span class="nc" id="L94">               System.out.println(&quot;Illegal arguments&quot;);</span>
+<span class="nc" id="L95">               return;</span>
+           }
+      
+<span class="nc bnc" id="L98" title="All 2 branches missed.">      if(hf){</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">          if(args.length == 4){</span>
+<span class="nc" id="L100">              extension = args[3];</span>
+          }else{
+<span class="nc bnc" id="L102" title="All 2 branches missed.">              if(compress){</span>
+<span class="nc" id="L103">                  extension = &quot;.hf&quot;;</span>
+              }else{
+<span class="nc" id="L105">                  extension = &quot;.txt&quot;;</span>
+              }
+              
+          }
+<span class="nc" id="L109">          int index = 0;</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">          for(int i = 0; i&lt; args[2].length();i++){</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">              if(args[2].charAt(i)=='.')index = i;</span>
+          }
+<span class="nc" id="L113">          fileName = args[2];</span>
+<span class="nc" id="L114">          outputFileName = args[2].substring(0, index)+extension;</span>
+          try{
+<span class="nc" id="L116">              ioIn = new BufferedInputStream(new FileInputStream(fileName));</span>
+<span class="nc" id="L117">              ioOut = new BufferedOutputStream(new FileOutputStream(outputFileName));</span>
+<span class="nc" id="L118">              fs = new FileService(ioIn,ioOut);</span>
+              /**
+              hfComp = new HuffmanCompression(fs,compress);
+              if(compress){
+                  hfComp.saveCompressed();
+              }else{
+                  hfComp.saveData();
+              }
+              fs.close();
+              **/
+<span class="nc" id="L128">              hfc = new Huffman(fs,compress);</span>
+<span class="nc" id="L129">          }catch(IOException e){</span>
+<span class="nc" id="L130">              System.out.println(&quot;Exception : &quot;+e.getLocalizedMessage());</span>
+<span class="nc" id="L131">          }</span>
+         
+          
+<span class="nc bnc" id="L134" title="All 2 branches missed.">      }else if(lzw){</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">              if(args.length == 4){</span>
+<span class="nc" id="L136">              extension = args[3];</span>
+          }else{
+<span class="nc bnc" id="L138" title="All 2 branches missed.">              if(compress){</span>
+<span class="nc" id="L139">                  extension = &quot;.lz&quot;;</span>
+              }else{
+<span class="nc" id="L141">                  extension = &quot;.txt&quot;;</span>
+              }
+              
+          }
+<span class="nc" id="L145">          int index = 0;</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">          for(int i = 0; i&lt; args[2].length();i++){</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">              if(args[2].charAt(i)=='.')index = i;</span>
+          }
+<span class="nc" id="L149">          fileName = args[2];</span>
+<span class="nc" id="L150">          outputFileName = args[2].substring(0, index)+extension;</span>
+            try{
+<span class="nc" id="L152">              ioIn = new BufferedInputStream(new FileInputStream(fileName));</span>
+<span class="nc" id="L153">              ioOut = new BufferedOutputStream(new FileOutputStream(outputFileName));</span>
+<span class="nc" id="L154">              fs = new FileService(ioIn,ioOut);</span>
+              /**
+              hfComp = new HuffmanCompression(fs,compress);
+              if(compress){
+                  hfComp.saveCompressed();
+              }else{
+                  hfComp.saveData();
+              }
+              fs.close();
+              **/
+<span class="nc" id="L164">              lz = new Lz(fs);</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">              if(compress){</span>
+<span class="nc" id="L166">                  lz.compress();</span>
+              }else{
+<span class="nc" id="L168">                  lz.extract();</span>
+              }
+             
+<span class="nc" id="L171">          }catch(IOException e){</span>
+<span class="nc" id="L172">              System.out.println(&quot;Exception : &quot;+e.getLocalizedMessage());</span>
+<span class="nc" id="L173">          }</span>
+          
+      }
+       
+<span class="nc" id="L177">        System.out.println(&quot;Compression done&quot;);</span>
+<span class="nc" id="L178">    }</span>
+    
+ 
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

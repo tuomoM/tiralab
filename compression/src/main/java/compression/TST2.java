@@ -75,7 +75,10 @@ public class TST2<Value> {
     }
     public Value get(String key){
        if(key.length()==0) return null;
-        return get(root,key,0).getValue();
+       
+        Node<Value> node= get(root,key,0);
+        if(node == null) return null;
+        return node.getValue();
     }
     private Node<Value> get(Node<Value> x, String key, int d){
         char c = key.charAt(d);
