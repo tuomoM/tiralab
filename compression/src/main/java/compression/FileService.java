@@ -43,8 +43,9 @@ public class FileService {
         
     }
     public FileService(String inputFile,String outputFile) throws IOException{
-       
-               ioIn = new BufferedInputStream(new FileInputStream(inputFile));
+           int k  = 8;
+               ioIn = new BufferedInputStream(new FileInputStream(inputFile),(1024*k));
+           
               ioOut = new BufferedOutputStream(new FileOutputStream(outputFile));
                this.index = 0;
         this.buffer = 0;
@@ -93,6 +94,15 @@ public class FileService {
         return value;
         
       
+    }
+    public String readFile(){
+        String data = "";
+        try{
+        byte[] bytes = ioIn.readAllBytes();
+        }catch(IOException e){
+            System.out.println("Error reading file "+e.getLocalizedMessage());
+        }
+        return "";
     }
     public char readChar(){
        

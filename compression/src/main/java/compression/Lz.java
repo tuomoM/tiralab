@@ -22,6 +22,8 @@ public class Lz {
         TST2 tst = new TST2<Integer>();
         String input = "";
         int  i;
+        int debugI = 0;
+        int anotherDI = 0;
         boolean debug = false;
         //initialize dictionary
         System.out.println("Compressing");
@@ -34,8 +36,11 @@ public class Lz {
         i++; //reserve 256 for eof
      
         while(!fs.inEmpty()){
+            debugI++;
             input+=fs.readChar();
+            if(debugI%1000000==0)System.out.println("million bytes read: "+(anotherDI++));
         }
+        System.out.println("input length: "+ input.length());
         int index = 0;
         while(input.length()>0){
             index ++;
@@ -45,16 +50,14 @@ public class Lz {
             }
             try{
            int keycode = (int)tst.get(sub);
-            // if(index<500)System.out.println(keycode);
-            //if(index < 500) System.out.println(sub+" : "+keycode);
-          
             fs.writeInt(keycode, W);
             }catch (java.lang.NullPointerException e){
                 debug = true;
          
             }
+            if(index%5000==0)System.out.println("5000 iterations");
             if(i<Max && sub.length()<input.length()){
-              //if(i<500) System.out.println("addingn "+i+ " substring : "+input.substring(0, sub.length()+1) );
+            
                 
                 tst.put(input.substring(0, sub.length()+1), i);
                 i++;
