@@ -23,23 +23,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void Mmain(String[] args){
-        TST2 tst = new TST2<Integer>();
-        //for(int i = 0; i < 256;i++) tst.put(""+(char)i, i);
-         tst.put("p", 0);
-         tst.put("q", 2);
-        tst.put("o", 1);
-        tst.put(""+(char)10, 10);
-     
-        tst.put("om", 256);
-        tst.put("ome", 257);
-        tst.put("omen", 258);
-        tst.put("omena", 259);
-    
- 
-     
-       
-    }
+    private final String version = "0.1";
     
     public static void main(String[] args) {
 
@@ -113,18 +97,8 @@ public class Main {
           fileName = args[2];
           outputFileName = args[2].substring(0, index)+extension;
           try{
-              ioIn = new BufferedInputStream(new FileInputStream(fileName));
-              ioOut = new BufferedOutputStream(new FileOutputStream(outputFileName));
-              fs = new FileService(ioIn,ioOut);
-              /**
-              hfComp = new HuffmanCompression(fs,compress);
-              if(compress){
-                  hfComp.saveCompressed();
-              }else{
-                  hfComp.saveData();
-              }
-              fs.close();
-              **/
+             
+              fs = new FileService(fileName,outputFileName);
               hfc = new Huffman(fs,compress);
           }catch(IOException e){
               System.out.println("Exception : "+e.getLocalizedMessage());
@@ -149,18 +123,8 @@ public class Main {
           fileName = args[2];
           outputFileName = args[2].substring(0, index)+extension;
             try{
-              ioIn = new BufferedInputStream(new FileInputStream(fileName));
-              ioOut = new BufferedOutputStream(new FileOutputStream(outputFileName));
-              fs = new FileService(ioIn,ioOut);
-              /**
-              hfComp = new HuffmanCompression(fs,compress);
-              if(compress){
-                  hfComp.saveCompressed();
-              }else{
-                  hfComp.saveData();
-              }
-              fs.close();
-              **/
+              fs = new FileService(fileName,outputFileName);
+       
               lz = new Lz(fs);
               if(compress){
                   lz.compress();
@@ -177,6 +141,10 @@ public class Main {
         System.out.println("Compression done");
     }
     
- 
+ void printHelp(){
+     System.out.println("Compression/Extraction program with Huffman and LZW options");
+     System.out.println("Tiralab project 2021 - Tuomo Mehtälä");
+     System.out.println("");
+ }
     
 }

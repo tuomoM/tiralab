@@ -57,7 +57,10 @@ public class HuffmanTest {
             while(!fs.inEmpty()){
                 result+=fs.readChar();
             }
-            
+               System.out.println("inputData: "+inputData);
+            for(int i = 0; i< result.length();i++){
+                System.out.println("result: " +result.charAt(i)+" target : "+inputData.charAt(i));
+            }
             assertTrue(result.equals(inputData));
            }catch (IOException e){
                System.out.println("error "+e.getLocalizedMessage());

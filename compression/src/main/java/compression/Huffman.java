@@ -64,16 +64,18 @@ public class Huffman {
         Node node1;
         Node node2;
         char b;
-        while(!fs.inEmpty()){
-            try{
-            b =  (char)(fs.readByteAsInt()&0xff);  
-            data+=b;
-           
-            lenght++;
-            }catch(Exception e){
-                System.out.println("Eof - reading the file");
-            }
-        }
+        data = fs.readFile();
+        lenght = data.length();
+//        while(!fs.inEmpty()){
+//            try{
+//            b =  (char)(fs.readByteAsInt()&0xff);  
+//            data+=b;
+//           
+//            lenght++;
+//            }catch(Exception e){
+//                System.out.println("Eof - reading the file");
+//            }
+//        }
         
         for(char a:data.toCharArray()){
             occurences.put(a,BigInteger.ONE.add(occurences.getOrDefault(a, BigInteger.ZERO)));

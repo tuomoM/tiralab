@@ -14,7 +14,8 @@ import java.lang.Integer;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.File;
-
+import java.nio.charset.StandardCharsets;
+import java.lang.StringBuilder;
 /**
  *
  * @author tuomomehtala
@@ -43,10 +44,10 @@ public class FileService {
         
     }
     public FileService(String inputFile,String outputFile) throws IOException{
-           int k  = 8;
+           int k  = 64;
                ioIn = new BufferedInputStream(new FileInputStream(inputFile),(1024*k));
            
-              ioOut = new BufferedOutputStream(new FileOutputStream(outputFile));
+              ioOut = new BufferedOutputStream(new FileOutputStream(outputFile),(1024*k));
                this.index = 0;
         this.buffer = 0;
         this.outBuffer = 0;
@@ -97,12 +98,29 @@ public class FileService {
     }
     public String readFile(){
         String data = "";
+        
         try{
         byte[] bytes = ioIn.readAllBytes();
+        char[] table = new char[bytes.length];
+        StringBuilder strB = new StringBuilder(bytes.length);
+           
+            //System.out.println("all bytes read");
+        strB.append((char)(buffer & 0xff));    
+        for(int i = 0; i < bytes.length;i++){
+           
+           strB.append((char)(bytes[i] & 0xff));
+          //  System.out.println("byte : "+i+" data: "+ (char)(bytes[i] & 0xff));
+        }
+        data = strB.toString();
+       // data = new String(bytes,StandardCharsets.US_ASCII);
+        //  System.out.println("data: "+data);
         }catch(IOException e){
             System.out.println("Error reading file "+e.getLocalizedMessage());
         }
-        return "";
+        index = 8;
+        buffer = 0;
+        fillInBuffer();
+        return data;
     }
     public char readChar(){
        
@@ -129,7 +147,7 @@ public class FileService {
             index = localIndex;
             data |= (buffer >>> index);
            //   System.out.println("returning char: "+data);
-            return (char)(data & 0xff) ;
+            return (char)(data & 0xff) ; // takes 256 (the lowest byte)
             
             
             

@@ -127,7 +127,7 @@ public class FileServiceTest {
              
          }
          try{
-         fs = new FileService(new BufferedInputStream(new FileInputStream("testfile.t")), new BufferedOutputStream(new FileOutputStream("testfile.t")));
+         fs = new FileService("testfile.t", "testfile.t");
          fs.writeInt(130,12);
         
          fs.close();

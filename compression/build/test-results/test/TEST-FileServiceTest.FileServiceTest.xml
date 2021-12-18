@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="FileServiceTest.FileServiceTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2021-12-13T20:02:27" hostname="tuomos-MacBook-Pro.local" time="0.009">
+<testsuite name="FileServiceTest.FileServiceTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2021-12-15T21:01:48" hostname="tuomos-MacBook-Pro.local" time="0.013">
   <properties/>
-  <testcase name="writeBitTest" classname="FileServiceTest.FileServiceTest" time="0.002"/>
-  <testcase name="writeByte" classname="FileServiceTest.FileServiceTest" time="0.001"/>
-  <testcase name="writeChar" classname="FileServiceTest.FileServiceTest" time="0.002"/>
+  <testcase name="writeBitTest" classname="FileServiceTest.FileServiceTest" time="0.003"/>
+  <testcase name="writeByte" classname="FileServiceTest.FileServiceTest" time="0.002"/>
+  <testcase name="writeChar" classname="FileServiceTest.FileServiceTest" time="0.001"/>
   <testcase name="testBitByteSeq" classname="FileServiceTest.FileServiceTest" time="0.001"/>
   <testcase name="writeInteger" classname="FileServiceTest.FileServiceTest" time="0.002"/>
-  <testcase name="writeShortInt" classname="FileServiceTest.FileServiceTest" time="0.001"/>
+  <testcase name="writeShortInt" classname="FileServiceTest.FileServiceTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -97,7 +97,7 @@ public class TST2<Value> {
         while(x!=null && d<key.length()){
          
              char c = key.charAt(d);
-             if(debug) System.out.println("searching for: "+c+" key length: "+key.length());
+            // if(debug) System.out.println("searching for: "+c+" key length: "+key.length());
             if(c>x.getChar()) x = x.getLeft();
             else if(c<x.getChar()) x = x.getRight();
             else{
@@ -105,9 +105,9 @@ public class TST2<Value> {
                 x= x.getMid();
             }
                 if(x==null || d == key.length()) length = d;
-            if(debug) System.out.println("d: "+d);
+            //if(debug) System.out.println("d: "+d);
         }
-        if(debug) System.out.println("returning lenght: "+length);
+      //  if(debug) System.out.println("returning lenght: "+length);
         return key.substring(0, length);
     }
 }
