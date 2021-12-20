@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.math.BigInteger;
 /**
- *
+ * implementation of huffman compression
  * @author tuomomehtala
  */
 public class Huffman {
@@ -16,7 +16,9 @@ public class Huffman {
     private HashMap<Character, BigInteger> occurences;
     private Node root;
     
-    
+    /**
+     * Internal class implementation for huffman node
+     */
     private static class Node implements Comparable{
         Node left;
         Node right;
@@ -43,6 +45,11 @@ public class Huffman {
         }
         
     }
+    /**
+     * Depending on parameter compress, either compresses or expands
+     * @param fs FileSerice object with files for reading and writing.
+     * @param compress 
+     */
     public Huffman(FileService fs, boolean compress){
         this.keys = new HashMap<>();
         this.occurences = new HashMap<>();
@@ -56,6 +63,9 @@ public class Huffman {
         }
         
     }
+    /**
+     * starts the compression
+     */
     private void compress(){
         String data = "";
         int lenght = 0;
@@ -66,16 +76,7 @@ public class Huffman {
         char b;
         data = fs.readFile();
         lenght = data.length();
-//        while(!fs.inEmpty()){
-//            try{
-//            b =  (char)(fs.readByteAsInt()&0xff);  
-//            data+=b;
-//           
-//            lenght++;
-//            }catch(Exception e){
-//                System.out.println("Eof - reading the file");
-//            }
-//        }
+
         
         for(char a:data.toCharArray()){
             occurences.put(a,BigInteger.ONE.add(occurences.getOrDefault(a, BigInteger.ZERO)));
@@ -119,6 +120,9 @@ public class Huffman {
         
         
     }
+    /**
+     * starts the extraction process
+     */
     private void extract(){
         
         this.root = decodeTree();
@@ -129,6 +133,9 @@ public class Huffman {
         
         
     }
+    /**
+     * Internal method to extract the content of the message
+     */
     private void extractData(){
         int lenght = fs.readInt();
         boolean bit = false;
@@ -152,7 +159,11 @@ public class Huffman {
             }
         }
     }
-    
+    /**
+     * recursive method to generate keys for each character
+     * @param node current node
+     * @param key key so far
+     */
     private void generateKeys(Node node, String key){
         if(node.isLeaf){
             this.keys.put(node.leaf, key);
@@ -162,6 +173,10 @@ public class Huffman {
             generateKeys(node.right,key+'1');
         }
     }
+    /**
+     * Reads the tree from the file
+     * @return 
+     */
     private Node decodeTree(){
         if(fs.readBit()){
            return new Node( fs.readChar(),BigInteger.ONE);
@@ -174,6 +189,10 @@ public class Huffman {
         
         
     }
+    /**
+     * Writes the tree to file
+     * @param node 
+     */
     private void encodeTree(Node node){
         if(node.isLeaf){
             fs.writeBoolean(true);

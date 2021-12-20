@@ -1,7 +1,7 @@
-compression/Main.java
- compression.Main
 compression/FileService.java
  compression.FileService
+compression/Main.java
+ compression.Main
 compression/Huffman.java
  compression.Huffman
  compression.Huffman$Node

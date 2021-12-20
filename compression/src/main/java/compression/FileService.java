@@ -17,7 +17,8 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.lang.StringBuilder;
 /**
- *
+ * Class to handle file operations for compression.
+ * Provides methods for writing and reading binary data
  * @author tuomomehtala
  */
 public class FileService {
@@ -31,7 +32,11 @@ public class FileService {
     private byte[] outBufferall;
     private int inCounter,outCounter;
     
-    
+    /**
+     * Obsolote constructor 
+     * @param in
+     * @param out 
+     */
     public FileService(BufferedInputStream in, BufferedOutputStream out){
         this.ioIn = in;
         this.ioOut = out;
@@ -43,6 +48,12 @@ public class FileService {
        
         
     }
+    /**
+     * Constructor
+     * @param inputFile name of the file to be read 
+     * @param outputFile name of the file to be written
+     * @throws IOException 
+     */
     public FileService(String inputFile,String outputFile) throws IOException{
            int k  = 64;
                ioIn = new BufferedInputStream(new FileInputStream(inputFile),(1024*k));
@@ -55,9 +66,16 @@ public class FileService {
         fillInBuffer();
        
     }
+    /**
+     * 
+     * @return value true if file is empty 
+     */
     public boolean inEmpty(){
         return index == -1;
     }
+    /**
+     * Internal method for filling the 8 bit buffer
+     */
     private void fillInBuffer(){
         if(buffer == 0 && index > -1){
             try{
@@ -78,6 +96,10 @@ public class FileService {
         }
         
     }
+    /**
+     * Reads one bit from file
+     * @return return true for 1 and false for 0
+     */
     public boolean readBit(){ 
         if(!active) throw new IllegalStateException("No active input/output streams");
        
@@ -96,6 +118,10 @@ public class FileService {
         
       
     }
+    /**
+     * Reads the whole file into a String with transformation of 1 byte = 1 character
+     * @return String value of all bytes
+     */
     public String readFile(){
         String data = "";
         
@@ -121,6 +147,10 @@ public class FileService {
         fillInBuffer();
         return data;
     }
+    /**
+     * Read one byte char from file
+     * @return byte as char
+     */
     public char readChar(){
        
         if(!active) throw new IllegalStateException("No active input/output streams");
@@ -156,6 +186,10 @@ public class FileService {
         
         
     }
+    /**
+     * read one byte as int 
+     * @return byte value as int.
+     */
     public int readByteAsInt(){
         if(!active) throw new IllegalStateException("No active input/output streams");
         int data = 0;
@@ -192,6 +226,9 @@ public class FileService {
     public int getOutCounter(){
         return this.outCounter;
     }
+    /**
+     * Internal method to empty program out buffer
+     */
     private void writeOutput(){
         try{
             ioOut.write(outBuffer);
@@ -205,6 +242,10 @@ public class FileService {
             System.out.println("Exception in writing to file: "+e.getLocalizedMessage() );
         }
     }
+    /**
+     * Write one bit to file
+     * @param bit true for 1 and false for 0
+     */
     public void writeBoolean(boolean bit){
         if(!active) throw new IllegalStateException("No active input/output streams");
         outBuffer <<= 1; //add one bit to right
@@ -213,6 +254,10 @@ public class FileService {
         outIndex++;
         if(outIndex >= 8) writeOutput();
     }
+    /**
+     * Write byte size int to file
+     * @param value to be written
+     */
     public void writeByte(int value){
         if(!active) throw new IllegalStateException("No active input/output streams");    
         if(outIndex == 0){
@@ -255,6 +300,11 @@ public class FileService {
                writeBoolean(bit);
         }
     }
+    /**
+     * Reads a specific length integer from file
+     * @param length length in bits.
+     * @return 
+     */
     public int readInt(int length){
         if(length == 32) return readInt();
         if(length < 1 || length > 32) throw new IllegalStateException("illegal int length");
@@ -270,6 +320,10 @@ public class FileService {
         
         return result;
     }
+    /**
+     * Writes integer to file (4 bytes)
+     * @param value to be written
+     */
     public void writeInt(int value){
         byte[] b = ByteBuffer.allocate(4).putInt(value).array();
         for(int i = 0; i<4;i++){
@@ -290,6 +344,9 @@ public class FileService {
         return ByteBuffer.wrap(b).getInt();
         
     }
+    /**
+     * Writes the buffer out and padds it with 0s before closing the file.
+     */
     public void close(){
         if(!active) throw new IllegalStateException("No active input/output streams");
         this.active = false;

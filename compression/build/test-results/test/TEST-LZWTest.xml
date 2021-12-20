@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="LZWTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2021-12-20T17:07:57" hostname="tuomos-MacBook-Pro.local" time="0.055">
+<testsuite name="LZWTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2021-12-20T19:48:25" hostname="tuomos-MacBook-Pro.local" time="0.077">
   <properties/>
-  <testcase name="complexLZWCompresses" classname="LZWTest" time="0.044"/>
-  <testcase name="SimpleLZWCompresses" classname="LZWTest" time="0.011"/>
+  <testcase name="complexLZWCompresses" classname="LZWTest" time="0.036"/>
+  <testcase name="SimpleLZWCompresses" classname="LZWTest" time="0.041"/>
   <system-out><![CDATA[Compressing
 data read into string
 input length: 161

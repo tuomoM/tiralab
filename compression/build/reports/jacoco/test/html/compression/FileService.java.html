@@ -17,7 +17,8 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.lang.StringBuilder;
 /**
- *
+ * Class to handle file operations for compression.
+ * Provides methods for writing and reading binary data
  * @author tuomomehtala
  */
 public class FileService {
@@ -31,122 +32,151 @@ public class FileService {
     private byte[] outBufferall;
     private int inCounter,outCounter;
     
-    
-<span class="fc" id="L35">    public FileService(BufferedInputStream in, BufferedOutputStream out){</span>
-<span class="fc" id="L36">        this.ioIn = in;</span>
-<span class="fc" id="L37">        this.ioOut = out;</span>
-<span class="fc" id="L38">        this.index = 0;</span>
-<span class="fc" id="L39">        this.buffer = 0;</span>
-<span class="fc" id="L40">        this.outBuffer = 0;</span>
-<span class="fc" id="L41">        this.active = true;</span>
-<span class="fc" id="L42">        fillInBuffer();</span>
+    /**
+     * Obsolote constructor 
+     * @param in
+     * @param out 
+     */
+<span class="fc" id="L40">    public FileService(BufferedInputStream in, BufferedOutputStream out){</span>
+<span class="fc" id="L41">        this.ioIn = in;</span>
+<span class="fc" id="L42">        this.ioOut = out;</span>
+<span class="fc" id="L43">        this.index = 0;</span>
+<span class="fc" id="L44">        this.buffer = 0;</span>
+<span class="fc" id="L45">        this.outBuffer = 0;</span>
+<span class="fc" id="L46">        this.active = true;</span>
+<span class="fc" id="L47">        fillInBuffer();</span>
        
         
-<span class="fc" id="L45">    }</span>
-<span class="fc" id="L46">    public FileService(String inputFile,String outputFile) throws IOException{</span>
-<span class="fc" id="L47">           int k  = 64;</span>
-<span class="fc" id="L48">               ioIn = new BufferedInputStream(new FileInputStream(inputFile),(1024*k));</span>
+<span class="fc" id="L50">    }</span>
+    /**
+     * Constructor
+     * @param inputFile name of the file to be read 
+     * @param outputFile name of the file to be written
+     * @throws IOException 
+     */
+<span class="fc" id="L57">    public FileService(String inputFile,String outputFile) throws IOException{</span>
+<span class="fc" id="L58">           int k  = 64;</span>
+<span class="fc" id="L59">               ioIn = new BufferedInputStream(new FileInputStream(inputFile),(1024*k));</span>
            
-<span class="fc" id="L50">              ioOut = new BufferedOutputStream(new FileOutputStream(outputFile),(1024*k));</span>
-<span class="fc" id="L51">               this.index = 0;</span>
-<span class="fc" id="L52">        this.buffer = 0;</span>
-<span class="fc" id="L53">        this.outBuffer = 0;</span>
-<span class="fc" id="L54">        this.active = true;</span>
-<span class="fc" id="L55">        fillInBuffer();</span>
+<span class="fc" id="L61">              ioOut = new BufferedOutputStream(new FileOutputStream(outputFile),(1024*k));</span>
+<span class="fc" id="L62">               this.index = 0;</span>
+<span class="fc" id="L63">        this.buffer = 0;</span>
+<span class="fc" id="L64">        this.outBuffer = 0;</span>
+<span class="fc" id="L65">        this.active = true;</span>
+<span class="fc" id="L66">        fillInBuffer();</span>
        
-<span class="fc" id="L57">    }</span>
+<span class="fc" id="L68">    }</span>
+    /**
+     * 
+     * @return value true if file is empty 
+     */
     public boolean inEmpty(){
-<span class="fc bfc" id="L59" title="All 2 branches covered.">        return index == -1;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        return index == -1;</span>
     }
+    /**
+     * Internal method for filling the 8 bit buffer
+     */
     private void fillInBuffer(){
-<span class="pc bpc" id="L62" title="2 of 4 branches missed.">        if(buffer == 0 &amp;&amp; index &gt; -1){</span>
+<span class="pc bpc" id="L80" title="2 of 4 branches missed.">        if(buffer == 0 &amp;&amp; index &gt; -1){</span>
             try{
                 
-<span class="fc" id="L65">                this.buffer = ioIn.read();</span>
+<span class="fc" id="L83">                this.buffer = ioIn.read();</span>
              //   System.out.println(&quot;read byte:&quot;+buffer);
-<span class="fc bfc" id="L67" title="All 2 branches covered.">                if(buffer == -1){</span>
-<span class="fc" id="L68">                    index = -1;</span>
-<span class="fc" id="L69">                    buffer= 0;        </span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">                if(buffer == -1){</span>
+<span class="fc" id="L86">                    index = -1;</span>
+<span class="fc" id="L87">                    buffer= 0;        </span>
                 }else{
-<span class="fc" id="L71">                index = 8;</span>
-<span class="fc" id="L72">                inCounter++;</span>
+<span class="fc" id="L89">                index = 8;</span>
+<span class="fc" id="L90">                inCounter++;</span>
                 }
-<span class="nc" id="L74">            }catch(Exception e){</span>
-<span class="nc" id="L75">                System.out.println(&quot;EOF: &quot;+e.getLocalizedMessage());</span>
-<span class="nc" id="L76">                index = -1;</span>
-<span class="fc" id="L77">            }</span>
+<span class="nc" id="L92">            }catch(Exception e){</span>
+<span class="nc" id="L93">                System.out.println(&quot;EOF: &quot;+e.getLocalizedMessage());</span>
+<span class="nc" id="L94">                index = -1;</span>
+<span class="fc" id="L95">            }</span>
         }
         
-<span class="fc" id="L80">    }</span>
+<span class="fc" id="L98">    }</span>
+    /**
+     * Reads one bit from file
+     * @return return true for 1 and false for 0
+     */
     public boolean readBit(){ 
-<span class="pc bpc" id="L82" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);</span>
        
-<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if(inEmpty()) throw new NoSuchElementException(&quot;Eof at: &quot;+inCounter);</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        if(inEmpty()) throw new NoSuchElementException(&quot;Eof at: &quot;+inCounter);</span>
         
-<span class="fc" id="L86">        index --;</span>
+<span class="fc" id="L108">        index --;</span>
    
         
-<span class="fc bfc" id="L89" title="All 2 branches covered.">        boolean value = ((buffer &gt;&gt; index)&amp; 1)==1;</span>
-<span class="fc bfc" id="L90" title="All 2 branches covered.">        if(index &lt;= 0) {</span>
-<span class="fc" id="L91">            index = 0;</span>
-<span class="fc" id="L92">            buffer = 0;</span>
-<span class="fc" id="L93">            fillInBuffer();</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        boolean value = ((buffer &gt;&gt; index)&amp; 1)==1;</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        if(index &lt;= 0) {</span>
+<span class="fc" id="L113">            index = 0;</span>
+<span class="fc" id="L114">            buffer = 0;</span>
+<span class="fc" id="L115">            fillInBuffer();</span>
         }
-<span class="fc" id="L95">        return value;</span>
+<span class="fc" id="L117">        return value;</span>
         
       
     }
+    /**
+     * Reads the whole file into a String with transformation of 1 byte = 1 character
+     * @return String value of all bytes
+     */
     public String readFile(){
-<span class="fc" id="L100">        String data = &quot;&quot;;</span>
+<span class="fc" id="L126">        String data = &quot;&quot;;</span>
         
         try{
-<span class="fc" id="L103">        byte[] bytes = ioIn.readAllBytes();</span>
-<span class="fc" id="L104">        char[] table = new char[bytes.length];</span>
-<span class="fc" id="L105">        StringBuilder strB = new StringBuilder(bytes.length);</span>
+<span class="fc" id="L129">        byte[] bytes = ioIn.readAllBytes();</span>
+<span class="fc" id="L130">        char[] table = new char[bytes.length];</span>
+<span class="fc" id="L131">        StringBuilder strB = new StringBuilder(bytes.length);</span>
            
             //System.out.println(&quot;all bytes read&quot;);
-<span class="fc" id="L108">        strB.append((char)(buffer &amp; 0xff));    </span>
-<span class="fc bfc" id="L109" title="All 2 branches covered.">        for(int i = 0; i &lt; bytes.length;i++){</span>
+<span class="fc" id="L134">        strB.append((char)(buffer &amp; 0xff));    </span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        for(int i = 0; i &lt; bytes.length;i++){</span>
            
-<span class="fc" id="L111">           strB.append((char)(bytes[i] &amp; 0xff));</span>
+<span class="fc" id="L137">           strB.append((char)(bytes[i] &amp; 0xff));</span>
   
         }
-<span class="fc" id="L114">        data = strB.toString();</span>
+<span class="fc" id="L140">        data = strB.toString();</span>
 
-<span class="nc" id="L116">        }catch(IOException e){</span>
-<span class="nc" id="L117">            System.out.println(&quot;Error reading file &quot;+e.getLocalizedMessage());</span>
-<span class="fc" id="L118">        }</span>
-<span class="fc" id="L119">        index = 8;</span>
-<span class="fc" id="L120">        buffer = 0;</span>
-<span class="fc" id="L121">        fillInBuffer();</span>
-<span class="fc" id="L122">        return data;</span>
+<span class="nc" id="L142">        }catch(IOException e){</span>
+<span class="nc" id="L143">            System.out.println(&quot;Error reading file &quot;+e.getLocalizedMessage());</span>
+<span class="fc" id="L144">        }</span>
+<span class="fc" id="L145">        index = 8;</span>
+<span class="fc" id="L146">        buffer = 0;</span>
+<span class="fc" id="L147">        fillInBuffer();</span>
+<span class="fc" id="L148">        return data;</span>
     }
+    /**
+     * Read one byte char from file
+     * @return byte as char
+     */
     public char readChar(){
        
-<span class="pc bpc" id="L126" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);</span>
-<span class="fc" id="L127">        int data = 0;</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);</span>
+<span class="fc" id="L157">        int data = 0;</span>
       
-<span class="fc bfc" id="L129" title="All 2 branches covered.">        if(index == 8){</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">        if(index == 8){</span>
       
-<span class="fc" id="L131">            data = buffer;</span>
-<span class="fc" id="L132">            index = 0;</span>
-<span class="fc" id="L133">            buffer = 0;</span>
-<span class="fc" id="L134">            fillInBuffer();</span>
+<span class="fc" id="L161">            data = buffer;</span>
+<span class="fc" id="L162">            index = 0;</span>
+<span class="fc" id="L163">            buffer = 0;</span>
+<span class="fc" id="L164">            fillInBuffer();</span>
           //  System.out.println(&quot;returning char: &quot;+data);
-<span class="fc" id="L136">            return (char)(data &amp; 0xff);</span>
+<span class="fc" id="L166">            return (char)(data &amp; 0xff);</span>
         }else{
-<span class="fc" id="L138">            data = buffer;</span>
-<span class="fc" id="L139">            int localIndex = index;</span>
-<span class="fc" id="L140">            buffer = 0;</span>
-<span class="fc" id="L141">            index = 0;</span>
-<span class="fc" id="L142">            fillInBuffer();</span>
-<span class="pc bpc" id="L143" title="1 of 2 branches missed.">            if(inEmpty()) throw new NoSuchElementException(&quot;Eof&quot;);</span>
+<span class="fc" id="L168">            data = buffer;</span>
+<span class="fc" id="L169">            int localIndex = index;</span>
+<span class="fc" id="L170">            buffer = 0;</span>
+<span class="fc" id="L171">            index = 0;</span>
+<span class="fc" id="L172">            fillInBuffer();</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">            if(inEmpty()) throw new NoSuchElementException(&quot;Eof&quot;);</span>
           //  System.out.println(&quot;moving : &quot; +(8-localIndex)+&quot; bits&quot;);
-<span class="fc" id="L145">            data &lt;&lt;= (8-localIndex);</span>
-<span class="fc" id="L146">            index = localIndex;</span>
-<span class="fc" id="L147">            data |= (buffer &gt;&gt;&gt; index);</span>
+<span class="fc" id="L175">            data &lt;&lt;= (8-localIndex);</span>
+<span class="fc" id="L176">            index = localIndex;</span>
+<span class="fc" id="L177">            data |= (buffer &gt;&gt;&gt; index);</span>
            //   System.out.println(&quot;returning char: &quot;+data);
-<span class="fc" id="L149">            return (char)(data &amp; 0xff) ; // takes 256 (the lowest byte)</span>
+<span class="fc" id="L179">            return (char)(data &amp; 0xff) ; // takes 256 (the lowest byte)</span>
             
             
             
@@ -156,28 +186,32 @@ public class FileService {
         
         
     }
+    /**
+     * read one byte as int 
+     * @return byte value as int.
+     */
     public int readByteAsInt(){
-<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);</span>
-<span class="fc" id="L161">        int data = 0;</span>
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);</span>
+<span class="fc" id="L195">        int data = 0;</span>
       
-<span class="fc bfc" id="L163" title="All 2 branches covered.">        if(index == 8){</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">        if(index == 8){</span>
       
-<span class="fc" id="L165">            data = buffer;</span>
-<span class="fc" id="L166">            index = 0;</span>
-<span class="fc" id="L167">            buffer = 0;</span>
-<span class="fc" id="L168">            fillInBuffer();</span>
-<span class="fc" id="L169">            return data;</span>
+<span class="fc" id="L199">            data = buffer;</span>
+<span class="fc" id="L200">            index = 0;</span>
+<span class="fc" id="L201">            buffer = 0;</span>
+<span class="fc" id="L202">            fillInBuffer();</span>
+<span class="fc" id="L203">            return data;</span>
         }else{
-<span class="fc" id="L171">            data = buffer;</span>
-<span class="fc" id="L172">            int localIndex = index;</span>
-<span class="fc" id="L173">            buffer = 0;</span>
-<span class="fc" id="L174">            index = 0;</span>
-<span class="fc" id="L175">            fillInBuffer();</span>
-<span class="pc bpc" id="L176" title="1 of 2 branches missed.">            if(inEmpty()) throw new NoSuchElementException(&quot;Eof&quot;);</span>
-<span class="fc" id="L177">            data &lt;&lt;= (8-localIndex);</span>
-<span class="fc" id="L178">            index = localIndex;</span>
-<span class="fc" id="L179">            data |= (buffer &gt;&gt;&gt; index);</span>
-<span class="fc" id="L180">            return data%256;</span>
+<span class="fc" id="L205">            data = buffer;</span>
+<span class="fc" id="L206">            int localIndex = index;</span>
+<span class="fc" id="L207">            buffer = 0;</span>
+<span class="fc" id="L208">            index = 0;</span>
+<span class="fc" id="L209">            fillInBuffer();</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">            if(inEmpty()) throw new NoSuchElementException(&quot;Eof&quot;);</span>
+<span class="fc" id="L211">            data &lt;&lt;= (8-localIndex);</span>
+<span class="fc" id="L212">            index = localIndex;</span>
+<span class="fc" id="L213">            data |= (buffer &gt;&gt;&gt; index);</span>
+<span class="fc" id="L214">            return data%256;</span>
             
             
             
@@ -187,44 +221,55 @@ public class FileService {
         
     }
     public int getInCounter(){
-<span class="nc" id="L190">        return this.inCounter;</span>
+<span class="nc" id="L224">        return this.inCounter;</span>
     }
     public int getOutCounter(){
-<span class="fc" id="L193">        return this.outCounter;</span>
+<span class="fc" id="L227">        return this.outCounter;</span>
     }
+    /**
+     * Internal method to empty program out buffer
+     */
     private void writeOutput(){
         try{
-<span class="fc" id="L197">            ioOut.write(outBuffer);</span>
+<span class="fc" id="L234">            ioOut.write(outBuffer);</span>
         
           //  System.out.println(&quot;wrote byte: &quot;+outBuffer);
-<span class="fc" id="L200">            outBuffer = 0;</span>
-<span class="fc" id="L201">            outIndex = 0;</span>
-<span class="fc" id="L202">            outCounter++;</span>
+<span class="fc" id="L237">            outBuffer = 0;</span>
+<span class="fc" id="L238">            outIndex = 0;</span>
+<span class="fc" id="L239">            outCounter++;</span>
             
-<span class="nc" id="L204">        }catch(IOException e){</span>
-<span class="nc" id="L205">            System.out.println(&quot;Exception in writing to file: &quot;+e.getLocalizedMessage() );</span>
-<span class="fc" id="L206">        }</span>
-<span class="fc" id="L207">    }</span>
+<span class="nc" id="L241">        }catch(IOException e){</span>
+<span class="nc" id="L242">            System.out.println(&quot;Exception in writing to file: &quot;+e.getLocalizedMessage() );</span>
+<span class="fc" id="L243">        }</span>
+<span class="fc" id="L244">    }</span>
+    /**
+     * Write one bit to file
+     * @param bit true for 1 and false for 0
+     */
     public void writeBoolean(boolean bit){
-<span class="pc bpc" id="L209" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);</span>
-<span class="fc" id="L210">        outBuffer &lt;&lt;= 1; //add one bit to right</span>
-<span class="fc bfc" id="L211" title="All 2 branches covered.">        if(bit) outBuffer |= 1;</span>
+<span class="pc bpc" id="L250" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);</span>
+<span class="fc" id="L251">        outBuffer &lt;&lt;= 1; //add one bit to right</span>
+<span class="fc bfc" id="L252" title="All 2 branches covered.">        if(bit) outBuffer |= 1;</span>
          //System.out.println(&quot;wrote out: &quot;+bit);
-<span class="fc" id="L213">        outIndex++;</span>
-<span class="fc bfc" id="L214" title="All 2 branches covered.">        if(outIndex &gt;= 8) writeOutput();</span>
-<span class="fc" id="L215">    }</span>
+<span class="fc" id="L254">        outIndex++;</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">        if(outIndex &gt;= 8) writeOutput();</span>
+<span class="fc" id="L256">    }</span>
+    /**
+     * Write byte size int to file
+     * @param value to be written
+     */
     public void writeByte(int value){
-<span class="pc bpc" id="L217" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);    </span>
-<span class="fc bfc" id="L218" title="All 2 branches covered.">        if(outIndex == 0){</span>
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);    </span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">        if(outIndex == 0){</span>
            // System.out.println(&quot;writing a full byte&quot;);
-<span class="fc" id="L220">            outBuffer = value;</span>
-<span class="fc" id="L221">            outIndex = 8;</span>
-<span class="fc" id="L222">            writeOutput();</span>
+<span class="fc" id="L265">            outBuffer = value;</span>
+<span class="fc" id="L266">            outIndex = 8;</span>
+<span class="fc" id="L267">            writeOutput();</span>
         }else{
           //  System.out.println(&quot;writing byte bit by bit&quot;);
-<span class="fc bfc" id="L225" title="All 2 branches covered.">              for (int i = 0; i &lt; 8; i++) {</span>
-<span class="fc bfc" id="L226" title="All 2 branches covered.">            boolean bit = ((value &gt;&gt;&gt; (8 - i - 1)) &amp; 1) == 1;</span>
-<span class="fc" id="L227">            writeBoolean(bit);</span>
+<span class="fc bfc" id="L270" title="All 2 branches covered.">              for (int i = 0; i &lt; 8; i++) {</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">            boolean bit = ((value &gt;&gt;&gt; (8 - i - 1)) &amp; 1) == 1;</span>
+<span class="fc" id="L272">            writeBoolean(bit);</span>
                  
         }
 //            for(int i = 7; i&lt;=0;i--){
@@ -238,7 +283,7 @@ public class FileService {
 //                 }
 //            }
         }
-<span class="fc" id="L241">    }</span>
+<span class="fc" id="L286">    }</span>
     /**
      * Writes integer with the predefined length as bits out.
      * Will throw exception if the length is larger than max int length 32
@@ -246,65 +291,77 @@ public class FileService {
      * @param length the amount of bits to be used
      */
     public void writeInt(int value, int length){
-<span class="pc bpc" id="L249" title="1 of 2 branches missed.">        if(length == 32 ){</span>
-<span class="nc" id="L250">            writeInt(value);</span>
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">        if(length == 32 ){</span>
+<span class="nc" id="L295">            writeInt(value);</span>
         }
-<span class="pc bpc" id="L252" title="2 of 4 branches missed.">        if(length &lt; 1 || length &gt; 32) throw new IllegalStateException(&quot;illegal int length&quot;);</span>
-<span class="fc bfc" id="L253" title="All 2 branches covered.">        for(int i = 0; i&lt;length;i++){</span>
-<span class="fc bfc" id="L254" title="All 2 branches covered.">               boolean bit = ((value &gt;&gt;&gt; (length - i - 1)) &amp; 1) == 1;</span>
-<span class="fc" id="L255">               writeBoolean(bit);</span>
+<span class="pc bpc" id="L297" title="2 of 4 branches missed.">        if(length &lt; 1 || length &gt; 32) throw new IllegalStateException(&quot;illegal int length&quot;);</span>
+<span class="fc bfc" id="L298" title="All 2 branches covered.">        for(int i = 0; i&lt;length;i++){</span>
+<span class="fc bfc" id="L299" title="All 2 branches covered.">               boolean bit = ((value &gt;&gt;&gt; (length - i - 1)) &amp; 1) == 1;</span>
+<span class="fc" id="L300">               writeBoolean(bit);</span>
         }
-<span class="fc" id="L257">    }</span>
+<span class="fc" id="L302">    }</span>
+    /**
+     * Reads a specific length integer from file
+     * @param length length in bits.
+     * @return 
+     */
     public int readInt(int length){
-<span class="pc bpc" id="L259" title="1 of 2 branches missed.">        if(length == 32) return readInt();</span>
-<span class="pc bpc" id="L260" title="2 of 4 branches missed.">        if(length &lt; 1 || length &gt; 32) throw new IllegalStateException(&quot;illegal int length&quot;);</span>
-<span class="fc" id="L261">        int result = 0;</span>
-<span class="fc bfc" id="L262" title="All 2 branches covered.">        for(int i = 0; i&lt; length;i++){</span>
-<span class="fc" id="L263">            boolean bit = readBit();</span>
-<span class="fc" id="L264">            result &lt;&lt;= 1;</span>
-<span class="fc bfc" id="L265" title="All 2 branches covered.">            if(bit){</span>
-<span class="fc" id="L266">                result |= 1;</span>
+<span class="pc bpc" id="L309" title="1 of 2 branches missed.">        if(length == 32) return readInt();</span>
+<span class="pc bpc" id="L310" title="2 of 4 branches missed.">        if(length &lt; 1 || length &gt; 32) throw new IllegalStateException(&quot;illegal int length&quot;);</span>
+<span class="fc" id="L311">        int result = 0;</span>
+<span class="fc bfc" id="L312" title="All 2 branches covered.">        for(int i = 0; i&lt; length;i++){</span>
+<span class="fc" id="L313">            boolean bit = readBit();</span>
+<span class="fc" id="L314">            result &lt;&lt;= 1;</span>
+<span class="fc bfc" id="L315" title="All 2 branches covered.">            if(bit){</span>
+<span class="fc" id="L316">                result |= 1;</span>
             }
         }
         
         
-<span class="fc" id="L271">        return result;</span>
+<span class="fc" id="L321">        return result;</span>
     }
+    /**
+     * Writes integer to file (4 bytes)
+     * @param value to be written
+     */
     public void writeInt(int value){
-<span class="fc" id="L274">        byte[] b = ByteBuffer.allocate(4).putInt(value).array();</span>
-<span class="fc bfc" id="L275" title="All 2 branches covered.">        for(int i = 0; i&lt;4;i++){</span>
-<span class="fc" id="L276">            writeByte(b[i]);</span>
+<span class="fc" id="L328">        byte[] b = ByteBuffer.allocate(4).putInt(value).array();</span>
+<span class="fc bfc" id="L329" title="All 2 branches covered.">        for(int i = 0; i&lt;4;i++){</span>
+<span class="fc" id="L330">            writeByte(b[i]);</span>
         }
         
-<span class="fc" id="L279">    }</span>
+<span class="fc" id="L333">    }</span>
     /**
      * Reads 4 bytes from disk and returns it as integer
      * @return integer value of 4 next bytes
      */
     public int readInt(){
-<span class="fc" id="L285">        byte[] b = new byte[4];</span>
-<span class="fc bfc" id="L286" title="All 2 branches covered.">        for(int i = 0; i&lt;4;i++){</span>
-<span class="fc" id="L287">            int x = readByteAsInt();</span>
-<span class="fc" id="L288">            b[i] =(byte) (x &amp; 0xff);</span>
+<span class="fc" id="L339">        byte[] b = new byte[4];</span>
+<span class="fc bfc" id="L340" title="All 2 branches covered.">        for(int i = 0; i&lt;4;i++){</span>
+<span class="fc" id="L341">            int x = readByteAsInt();</span>
+<span class="fc" id="L342">            b[i] =(byte) (x &amp; 0xff);</span>
         }
-<span class="fc" id="L290">        return ByteBuffer.wrap(b).getInt();</span>
+<span class="fc" id="L344">        return ByteBuffer.wrap(b).getInt();</span>
         
     }
+    /**
+     * Writes the buffer out and padds it with 0s before closing the file.
+     */
     public void close(){
-<span class="pc bpc" id="L294" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);</span>
-<span class="fc" id="L295">        this.active = false;</span>
-<span class="fc bfc" id="L296" title="All 2 branches covered.">        if(outIndex&gt;0){</span>
-<span class="fc" id="L297">            outBuffer &lt;&lt;= (8-outIndex); // pad last byte with zeroes to end.</span>
-<span class="fc" id="L298">            writeOutput();</span>
+<span class="pc bpc" id="L351" title="1 of 2 branches missed.">        if(!active) throw new IllegalStateException(&quot;No active input/output streams&quot;);</span>
+<span class="fc" id="L352">        this.active = false;</span>
+<span class="fc bfc" id="L353" title="All 2 branches covered.">        if(outIndex&gt;0){</span>
+<span class="fc" id="L354">            outBuffer &lt;&lt;= (8-outIndex); // pad last byte with zeroes to end.</span>
+<span class="fc" id="L355">            writeOutput();</span>
         }
         try{
-<span class="fc" id="L301">            ioOut.flush();</span>
-<span class="fc" id="L302">            ioIn.close();</span>
-<span class="fc" id="L303">            ioOut.close();</span>
-<span class="nc" id="L304">        }catch(IOException e){</span>
-<span class="nc" id="L305">            System.out.println(&quot;Exception in closing file inteface: &quot;+e.getLocalizedMessage());</span>
-<span class="fc" id="L306">        }</span>
-<span class="fc" id="L307">    }  </span>
+<span class="fc" id="L358">            ioOut.flush();</span>
+<span class="fc" id="L359">            ioIn.close();</span>
+<span class="fc" id="L360">            ioOut.close();</span>
+<span class="nc" id="L361">        }catch(IOException e){</span>
+<span class="nc" id="L362">            System.out.println(&quot;Exception in closing file inteface: &quot;+e.getLocalizedMessage());</span>
+<span class="fc" id="L363">        }</span>
+<span class="fc" id="L364">    }  </span>
     
     
 }

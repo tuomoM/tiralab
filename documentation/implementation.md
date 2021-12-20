@@ -21,7 +21,8 @@ This class provides the tools for writing and reading bits from and to disk. It 
 This class uses the fileservice to write and read. the functions here allow compression and decompression of files using huffman.
 
 ### LZ
-this incorrectly named class works has two methods one for compression and one for extraction. This is rather simple class
+this incorrectly named class works has two methods one for compression and one for extraction. This is rather simple class.
+This should be recoded to remove all String.substring calls with something faster.
 
 ### TST2
 this is my second attempt of creating the Ternary Search Tree. This is the hearth of the LZW compression.
@@ -36,6 +37,7 @@ Huffman encoding traverses the tree for each character in the string, this has t
 ### LZW
 #### compression
 Compression uses the Ternary Search Trie as its core and that has worst case time requirement of **O(n+k)** and average time requirement of **O(n log n)**. Im assuming i get about average performance :D... thus i expect the compression to have  **O(n log n)** time requirement. Since the TST is very efficient space wise, i assume the space requirement ot be close to **O(n)**
+How ever the downfall of this algorithm is the numerous String.substring() calls. 
 #### extraction
 Extraction is significantly simpler as the indexing of the keys is always predictable (LZW is cool), the extraction uses up to 4095 key words that can be accessed in time of **O(n)**. Thus the time requirement of the extraction should be **O(n)**
 

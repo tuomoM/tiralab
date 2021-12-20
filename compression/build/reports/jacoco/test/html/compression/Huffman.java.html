@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.math.BigInteger;
 /**
- *
+ * implementation of huffman compression
  * @author tuomomehtala
  */
 public class Huffman {
@@ -16,174 +16,193 @@ public class Huffman {
     private HashMap&lt;Character, BigInteger&gt; occurences;
     private Node root;
     
-    
+    /**
+     * Internal class implementation for huffman node
+     */
     private static class Node implements Comparable{
         Node left;
         Node right;
         boolean isLeaf;
         char leaf;
         BigInteger value;
-<span class="fc" id="L26">        public Node(char a,BigInteger value){</span>
-<span class="fc" id="L27">            this.leaf = a;</span>
-<span class="fc" id="L28">            this.value = value;</span>
-<span class="fc" id="L29">            this.isLeaf = true;</span>
-<span class="fc" id="L30">        }</span>
-<span class="fc" id="L31">        public Node( Node left, Node right){</span>
-<span class="fc" id="L32">            this.value = left.value.add(right.value);</span>
-<span class="fc" id="L33">            this.left = left;</span>
-<span class="fc" id="L34">            this.right = right;</span>
-<span class="fc" id="L35">            this.isLeaf= false;</span>
-<span class="fc" id="L36">        }</span>
+<span class="fc" id="L28">        public Node(char a,BigInteger value){</span>
+<span class="fc" id="L29">            this.leaf = a;</span>
+<span class="fc" id="L30">            this.value = value;</span>
+<span class="fc" id="L31">            this.isLeaf = true;</span>
+<span class="fc" id="L32">        }</span>
+<span class="fc" id="L33">        public Node( Node left, Node right){</span>
+<span class="fc" id="L34">            this.value = left.value.add(right.value);</span>
+<span class="fc" id="L35">            this.left = left;</span>
+<span class="fc" id="L36">            this.right = right;</span>
+<span class="fc" id="L37">            this.isLeaf= false;</span>
+<span class="fc" id="L38">        }</span>
         @Override
         public int compareTo(Object o) {
-<span class="pc bpc" id="L39" title="1 of 2 branches missed.">            if(o instanceof Node){      </span>
-<span class="fc" id="L40">                return this.value.compareTo(((Node) o).value);</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            if(o instanceof Node){      </span>
+<span class="fc" id="L42">                return this.value.compareTo(((Node) o).value);</span>
             }
-<span class="nc" id="L42">            return 0;</span>
+<span class="nc" id="L44">            return 0;</span>
         }
         
     }
-<span class="fc" id="L46">    public Huffman(FileService fs, boolean compress){</span>
-<span class="fc" id="L47">        this.keys = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L48">        this.occurences = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L49">        this.fs = fs;</span>
-<span class="fc bfc" id="L50" title="All 2 branches covered.">        if(compress){</span>
-<span class="fc" id="L51">            System.out.println(&quot;compressing&quot;);</span>
-<span class="fc" id="L52">            compress();</span>
+    /**
+     * Depending on parameter compress, either compresses or expands
+     * @param fs FileSerice object with files for reading and writing.
+     * @param compress 
+     */
+<span class="fc" id="L53">    public Huffman(FileService fs, boolean compress){</span>
+<span class="fc" id="L54">        this.keys = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L55">        this.occurences = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L56">        this.fs = fs;</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if(compress){</span>
+<span class="fc" id="L58">            System.out.println(&quot;compressing&quot;);</span>
+<span class="fc" id="L59">            compress();</span>
             
         }else{
-<span class="fc" id="L55">            extract();</span>
+<span class="fc" id="L62">            extract();</span>
         }
         
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L65">    }</span>
+    /**
+     * starts the compression
+     */
     private void compress(){
-<span class="fc" id="L60">        String data = &quot;&quot;;</span>
-<span class="fc" id="L61">        int lenght = 0;</span>
+<span class="fc" id="L70">        String data = &quot;&quot;;</span>
+<span class="fc" id="L71">        int lenght = 0;</span>
         PriorityQueue&lt;Node&gt; queue;
-<span class="fc" id="L63">        queue = new PriorityQueue&lt;&gt;(); </span>
+<span class="fc" id="L73">        queue = new PriorityQueue&lt;&gt;(); </span>
         Node node1;
         Node node2;
         char b;
-<span class="fc" id="L67">        data = fs.readFile();</span>
-<span class="fc" id="L68">        lenght = data.length();</span>
-//        while(!fs.inEmpty()){
-//            try{
-//            b =  (char)(fs.readByteAsInt()&amp;0xff);  
-//            data+=b;
-//           
-//            lenght++;
-//            }catch(Exception e){
-//                System.out.println(&quot;Eof - reading the file&quot;);
-//            }
-//        }
+<span class="fc" id="L77">        data = fs.readFile();</span>
+<span class="fc" id="L78">        lenght = data.length();</span>
+
         
-<span class="fc bfc" id="L80" title="All 2 branches covered.">        for(char a:data.toCharArray()){</span>
-<span class="fc" id="L81">            occurences.put(a,BigInteger.ONE.add(occurences.getOrDefault(a, BigInteger.ZERO)));</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        for(char a:data.toCharArray()){</span>
+<span class="fc" id="L82">            occurences.put(a,BigInteger.ONE.add(occurences.getOrDefault(a, BigInteger.ZERO)));</span>
         }
         
-<span class="fc bfc" id="L84" title="All 2 branches covered.">        for(char a: occurences.keySet()){</span>
-<span class="fc" id="L85">            queue.add(new Node(a,occurences.get(a)));</span>
-<span class="fc" id="L86">        }</span>
-<span class="fc bfc" id="L87" title="All 2 branches covered.">        while(!queue.isEmpty()){</span>
-<span class="fc" id="L88">            node1 = queue.poll();</span>
-<span class="fc bfc" id="L89" title="All 2 branches covered.">            if(queue.isEmpty()){</span>
-<span class="fc" id="L90">                this.root = node1;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        for(char a: occurences.keySet()){</span>
+<span class="fc" id="L86">            queue.add(new Node(a,occurences.get(a)));</span>
+<span class="fc" id="L87">        }</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        while(!queue.isEmpty()){</span>
+<span class="fc" id="L89">            node1 = queue.poll();</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">            if(queue.isEmpty()){</span>
+<span class="fc" id="L91">                this.root = node1;</span>
                 
             }else{
-<span class="fc" id="L93">                node2 = queue.poll();</span>
-<span class="fc" id="L94">                queue.add(new Node(node1,node2));</span>
+<span class="fc" id="L94">                node2 = queue.poll();</span>
+<span class="fc" id="L95">                queue.add(new Node(node1,node2));</span>
             }
         }
         //Tree is complete, now build the keys.
-<span class="fc" id="L98">        generateKeys(root,&quot;&quot;);</span>
+<span class="fc" id="L99">        generateKeys(root,&quot;&quot;);</span>
         //write out the tree
-<span class="fc" id="L100">        encodeTree(root);</span>
+<span class="fc" id="L101">        encodeTree(root);</span>
         
         //write out the lenght of the input 
-<span class="fc" id="L103">        fs.writeInt(lenght);</span>
+<span class="fc" id="L104">        fs.writeInt(lenght);</span>
         //write out the data
-<span class="fc" id="L105">        String buffer = &quot;&quot;;</span>
-<span class="fc bfc" id="L106" title="All 2 branches covered.">        for(char a:data.toCharArray()){</span>
-<span class="fc" id="L107">            buffer = keys.get(a);</span>
-<span class="fc bfc" id="L108" title="All 2 branches covered.">            for(char c:buffer.toCharArray()){</span>
-<span class="fc bfc" id="L109" title="All 2 branches covered.">                if(c=='1'){</span>
-<span class="fc" id="L110">                    fs.writeBoolean(true);</span>
+<span class="fc" id="L106">        String buffer = &quot;&quot;;</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        for(char a:data.toCharArray()){</span>
+<span class="fc" id="L108">            buffer = keys.get(a);</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">            for(char c:buffer.toCharArray()){</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">                if(c=='1'){</span>
+<span class="fc" id="L111">                    fs.writeBoolean(true);</span>
                 }else{
-<span class="fc" id="L112">                    fs.writeBoolean(false);</span>
+<span class="fc" id="L113">                    fs.writeBoolean(false);</span>
                 }
             }
         }
         //close files
-<span class="fc" id="L117">        System.out.println(&quot;closing at: &quot;+fs.getOutCounter());</span>
-<span class="fc" id="L118">        fs.close();</span>
+<span class="fc" id="L118">        System.out.println(&quot;closing at: &quot;+fs.getOutCounter());</span>
+<span class="fc" id="L119">        fs.close();</span>
         
         
-<span class="fc" id="L121">    }</span>
+<span class="fc" id="L122">    }</span>
+    /**
+     * starts the extraction process
+     */
     private void extract(){
         
-<span class="fc" id="L124">        this.root = decodeTree();</span>
-<span class="fc" id="L125">        System.out.println(&quot;Tree decoded&quot;);</span>
-<span class="fc" id="L126">        extractData();</span>
-<span class="fc" id="L127">        fs.close();</span>
+<span class="fc" id="L128">        this.root = decodeTree();</span>
+<span class="fc" id="L129">        System.out.println(&quot;Tree decoded&quot;);</span>
+<span class="fc" id="L130">        extractData();</span>
+<span class="fc" id="L131">        fs.close();</span>
         
         
         
-<span class="fc" id="L131">    }</span>
+<span class="fc" id="L135">    }</span>
+    /**
+     * Internal method to extract the content of the message
+     */
     private void extractData(){
-<span class="fc" id="L133">        int lenght = fs.readInt();</span>
-<span class="fc" id="L134">        boolean bit = false;</span>
-<span class="fc" id="L135">        Node node = root;</span>
-<span class="pc bpc" id="L136" title="1 of 4 branches missed.">        while(!fs.inEmpty()&amp;&amp; lenght &gt; 0){</span>
-<span class="fc bfc" id="L137" title="All 2 branches covered.">            if(node.isLeaf){</span>
-<span class="fc" id="L138">                fs.writeByte(node.leaf);</span>
-<span class="fc" id="L139">                node = root;</span>
-<span class="fc" id="L140">                lenght--;</span>
+<span class="fc" id="L140">        int lenght = fs.readInt();</span>
+<span class="fc" id="L141">        boolean bit = false;</span>
+<span class="fc" id="L142">        Node node = root;</span>
+<span class="pc bpc" id="L143" title="1 of 4 branches missed.">        while(!fs.inEmpty()&amp;&amp; lenght &gt; 0){</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">            if(node.isLeaf){</span>
+<span class="fc" id="L145">                fs.writeByte(node.leaf);</span>
+<span class="fc" id="L146">                node = root;</span>
+<span class="fc" id="L147">                lenght--;</span>
             }else{
                 try{
-<span class="fc bfc" id="L143" title="All 2 branches covered.">                if(fs.readBit()){</span>
-<span class="fc" id="L144">                    node = node.right;</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">                if(fs.readBit()){</span>
+<span class="fc" id="L151">                    node = node.right;</span>
                 }else{
-<span class="fc" id="L146">                    node = node.left;</span>
+<span class="fc" id="L153">                    node = node.left;</span>
                 }
-<span class="nc" id="L148">                }catch (Exception e){</span>
-<span class="nc" id="L149">                    System.out.println(&quot;Exception at extraction - data - &quot;+e.getLocalizedMessage());</span>
-<span class="nc" id="L150">                    break;</span>
-<span class="fc" id="L151">                }</span>
+<span class="nc" id="L155">                }catch (Exception e){</span>
+<span class="nc" id="L156">                    System.out.println(&quot;Exception at extraction - data - &quot;+e.getLocalizedMessage());</span>
+<span class="nc" id="L157">                    break;</span>
+<span class="fc" id="L158">                }</span>
             }
         }
-<span class="fc" id="L154">    }</span>
-    
+<span class="fc" id="L161">    }</span>
+    /**
+     * recursive method to generate keys for each character
+     * @param node current node
+     * @param key key so far
+     */
     private void generateKeys(Node node, String key){
-<span class="fc bfc" id="L157" title="All 2 branches covered.">        if(node.isLeaf){</span>
-<span class="fc" id="L158">            this.keys.put(node.leaf, key);</span>
-<span class="fc" id="L159">            return;</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        if(node.isLeaf){</span>
+<span class="fc" id="L169">            this.keys.put(node.leaf, key);</span>
+<span class="fc" id="L170">            return;</span>
         }else{
-<span class="fc" id="L161">            generateKeys(node.left,key+'0');</span>
-<span class="fc" id="L162">            generateKeys(node.right,key+'1');</span>
+<span class="fc" id="L172">            generateKeys(node.left,key+'0');</span>
+<span class="fc" id="L173">            generateKeys(node.right,key+'1');</span>
         }
-<span class="fc" id="L164">    }</span>
+<span class="fc" id="L175">    }</span>
+    /**
+     * Reads the tree from the file
+     * @return 
+     */
     private Node decodeTree(){
-<span class="fc bfc" id="L166" title="All 2 branches covered.">        if(fs.readBit()){</span>
-<span class="fc" id="L167">           return new Node( fs.readChar(),BigInteger.ONE);</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">        if(fs.readBit()){</span>
+<span class="fc" id="L182">           return new Node( fs.readChar(),BigInteger.ONE);</span>
         }else{
-<span class="fc" id="L169">            Node left = decodeTree();</span>
-<span class="fc" id="L170">            Node right = decodeTree();</span>
+<span class="fc" id="L184">            Node left = decodeTree();</span>
+<span class="fc" id="L185">            Node right = decodeTree();</span>
             
-<span class="fc" id="L172">            return new Node(left,right);</span>
+<span class="fc" id="L187">            return new Node(left,right);</span>
         }
         
         
     }
+    /**
+     * Writes the tree to file
+     * @param node 
+     */
     private void encodeTree(Node node){
-<span class="fc bfc" id="L178" title="All 2 branches covered.">        if(node.isLeaf){</span>
-<span class="fc" id="L179">            fs.writeBoolean(true);</span>
-<span class="fc" id="L180">            fs.writeByte(node.leaf);</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">        if(node.isLeaf){</span>
+<span class="fc" id="L198">            fs.writeBoolean(true);</span>
+<span class="fc" id="L199">            fs.writeByte(node.leaf);</span>
         }else{
-<span class="fc" id="L182">            fs.writeBoolean(false);</span>
-<span class="fc" id="L183">            encodeTree(node.left);</span>
-<span class="fc" id="L184">            encodeTree(node.right);</span>
+<span class="fc" id="L201">            fs.writeBoolean(false);</span>
+<span class="fc" id="L202">            encodeTree(node.left);</span>
+<span class="fc" id="L203">            encodeTree(node.right);</span>
         }
-<span class="fc" id="L186">    }</span>
+<span class="fc" id="L205">    }</span>
     
     
 }

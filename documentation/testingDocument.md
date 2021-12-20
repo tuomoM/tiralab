@@ -47,6 +47,7 @@ In summary, setting the max size for dictionary and coding length to optimal wil
 # Automated unit tests
 
 Automated unit tests have been written and are executed by gradle. Unfortunately my lacking skills with gradle and the cursed java do not allow me to exclude the UI from the jacoco report.
-
+## Jacoco report
+![jacoco](./jacoco.jpeg)
 
 
