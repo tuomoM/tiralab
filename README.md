@@ -16,7 +16,8 @@ Small update and ray of light hitting the darkest places.. the darn fileinterfac
 
 ## Project documentations with slightly less grievous approach
 [Project defenition](documentation/projectDefenition.md)\
-[Implementation document](documentation/implementation.md)
+[Implementation document](documentation/implementation.md)\
+[Testing document](documentation/testingDocument.md)
 
 -----------------
 *What profit hath a man of all his labour which he taketh under the sun?*

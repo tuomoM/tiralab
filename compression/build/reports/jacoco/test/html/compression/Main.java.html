@@ -23,161 +23,140 @@ import java.io.File;
     /**
      * @param args the command line arguments
      */
-    public static void Mmain(String[] args){
-<span class="nc" id="L27">        TST2 tst = new TST2&lt;Integer&gt;();</span>
-        //for(int i = 0; i &lt; 256;i++) tst.put(&quot;&quot;+(char)i, i);
-<span class="nc" id="L29">         tst.put(&quot;p&quot;, 0);</span>
-<span class="nc" id="L30">         tst.put(&quot;q&quot;, 2);</span>
-<span class="nc" id="L31">        tst.put(&quot;o&quot;, 1);</span>
-<span class="nc" id="L32">        tst.put(&quot;&quot;+(char)10, 10);</span>
-     
-<span class="nc" id="L34">        tst.put(&quot;om&quot;, 256);</span>
-<span class="nc" id="L35">        tst.put(&quot;ome&quot;, 257);</span>
-<span class="nc" id="L36">        tst.put(&quot;omen&quot;, 258);</span>
-<span class="nc" id="L37">        tst.put(&quot;omena&quot;, 259);</span>
-    
- 
-     
-       
-<span class="nc" id="L42">    }</span>
+    private final static String version = &quot;0.1&quot;;
     
     public static void main(String[] args) {
 
          Huffman hfc;
          BufferedInputStream ioIn ;
          BufferedOutputStream ioOut;
-<span class="nc" id="L49">         boolean hf = false;</span>
-<span class="nc" id="L50">         boolean lzw = false;</span>
-<span class="nc" id="L51">         boolean compress = false;</span>
+<span class="nc" id="L33">         boolean hf = false;</span>
+<span class="nc" id="L34">         boolean lzw = false;</span>
+<span class="nc" id="L35">         boolean compress = false;</span>
          FileService fs;
          String fileName;
          String outputFileName;
          String extension;
          Lz lz;
+<span class="nc bnc" id="L41" title="All 4 branches missed.">         if(args[0].equals(&quot;--h&quot;) || args[0].equals(&quot;--help&quot;)){</span>
+<span class="nc" id="L42">             printHelp();</span>
+<span class="nc" id="L43">             return;</span>
+         }
          
-         
-<span class="nc" id="L59">        System.out.println(&quot;Compression start&quot;);  </span>
-<span class="nc" id="L60">        System.out.println(&quot;Working Directory = &quot; + System.getProperty(&quot;user.dir&quot;));</span>
+   
+       
         
-<span class="nc bnc" id="L62" title="All 2 branches missed.">       if(args.length&lt;3){</span>
-<span class="nc" id="L63">           System.out.println(&quot;Too few arguments&quot;);</span>
-<span class="nc" id="L64">           return;</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">       if(args.length&lt;3){</span>
+<span class="nc" id="L50">           System.out.println(&quot;Too few arguments, for help use '--h'&quot;);</span>
+<span class="nc" id="L51">           return;</span>
        }
-<span class="nc bnc" id="L66" title="All 2 branches missed.">       if(args[0].equalsIgnoreCase(&quot;-hf&quot;)){ //huffman</span>
-<span class="nc" id="L67">           System.out.println(&quot;Huffman&quot;);</span>
-<span class="nc" id="L68">           hf = true;</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">       if(args[0].equalsIgnoreCase(&quot;-hf&quot;)){ //huffman</span>
+<span class="nc" id="L54">           System.out.println(&quot;Huffman&quot;);</span>
+<span class="nc" id="L55">           hf = true;</span>
            
-<span class="nc bnc" id="L70" title="All 2 branches missed.">       } else if(args[0].equalsIgnoreCase(&quot;-lz&quot;)){</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">       } else if(args[0].equalsIgnoreCase(&quot;-lz&quot;)){</span>
           
-<span class="nc" id="L72">       lzw = true;</span>
+<span class="nc" id="L59">       lzw = true;</span>
        }else{
-<span class="nc" id="L74">           System.out.println(&quot;Illegal arguments:&quot; + args[0]);</span>
-<span class="nc" id="L75">           return;</span>
+<span class="nc" id="L61">           System.out.println(&quot;Illegal arguments:&quot; + args[0]);</span>
+<span class="nc" id="L62">           return;</span>
        }
-<span class="nc bnc" id="L77" title="All 4 branches missed.">           if(args[1].equalsIgnoreCase(&quot;-c&quot;) &amp;&amp; args[2]!=null){ //compress</span>
-<span class="nc" id="L78">               System.out.println(&quot;Compress&quot;);</span>
-<span class="nc" id="L79">               compress = true;</span>
-<span class="nc" id="L80">                fileName = args[2];</span>
-<span class="nc" id="L81">               int index = 0;</span>
-<span class="nc bnc" id="L82" title="All 2 branches missed.">               for(int i = 0;i&lt;args[2].length();i++){</span>
-<span class="nc bnc" id="L83" title="All 2 branches missed.">                        if(args[2].charAt(i)=='.') index = i;</span>
+<span class="nc bnc" id="L64" title="All 4 branches missed.">           if(args[1].equalsIgnoreCase(&quot;-c&quot;) &amp;&amp; args[2]!=null){ //compress</span>
+<span class="nc" id="L65">               System.out.println(&quot;Compress&quot;);</span>
+<span class="nc" id="L66">               compress = true;</span>
+<span class="nc" id="L67">                fileName = args[2];</span>
+<span class="nc" id="L68">               int index = 0;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">               for(int i = 0;i&lt;args[2].length();i++){</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                        if(args[2].charAt(i)=='.') index = i;</span>
                 }
-<span class="nc" id="L85">               String outPutName = args[2].substring(0,index)+&quot;.hf&quot;;</span>
+<span class="nc" id="L72">               String outPutName = args[2].substring(0,index)+&quot;.hf&quot;;</span>
                
                
            
              
-<span class="nc bnc" id="L90" title="All 4 branches missed.">           }else if(args[1].equals(&quot;-e&quot;) &amp;&amp; args[2]!=null){ //extract</span>
-<span class="nc" id="L91">             compress = false;</span>
+<span class="nc bnc" id="L77" title="All 4 branches missed.">           }else if(args[1].equals(&quot;-e&quot;) &amp;&amp; args[2]!=null){ //extract</span>
+<span class="nc" id="L78">             compress = false;</span>
             
            }else{ 
-<span class="nc" id="L94">               System.out.println(&quot;Illegal arguments&quot;);</span>
-<span class="nc" id="L95">               return;</span>
+<span class="nc" id="L81">               System.out.println(&quot;Illegal arguments&quot;);</span>
+<span class="nc" id="L82">               return;</span>
            }
       
-<span class="nc bnc" id="L98" title="All 2 branches missed.">      if(hf){</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">          if(args.length == 4){</span>
-<span class="nc" id="L100">              extension = args[3];</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">      if(hf){</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">          if(args.length == 4){</span>
+<span class="nc" id="L87">              extension = args[3];</span>
           }else{
-<span class="nc bnc" id="L102" title="All 2 branches missed.">              if(compress){</span>
-<span class="nc" id="L103">                  extension = &quot;.hf&quot;;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">              if(compress){</span>
+<span class="nc" id="L90">                  extension = &quot;.hf&quot;;</span>
               }else{
-<span class="nc" id="L105">                  extension = &quot;.txt&quot;;</span>
+<span class="nc" id="L92">                  extension = &quot;.txt&quot;;</span>
               }
               
           }
-<span class="nc" id="L109">          int index = 0;</span>
-<span class="nc bnc" id="L110" title="All 2 branches missed.">          for(int i = 0; i&lt; args[2].length();i++){</span>
-<span class="nc bnc" id="L111" title="All 2 branches missed.">              if(args[2].charAt(i)=='.')index = i;</span>
+<span class="nc" id="L96">          int index = 0;</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">          for(int i = 0; i&lt; args[2].length();i++){</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">              if(args[2].charAt(i)=='.')index = i;</span>
           }
-<span class="nc" id="L113">          fileName = args[2];</span>
-<span class="nc" id="L114">          outputFileName = args[2].substring(0, index)+extension;</span>
+<span class="nc" id="L100">          fileName = args[2];</span>
+<span class="nc" id="L101">          outputFileName = args[2].substring(0, index)+extension;</span>
           try{
-<span class="nc" id="L116">              ioIn = new BufferedInputStream(new FileInputStream(fileName));</span>
-<span class="nc" id="L117">              ioOut = new BufferedOutputStream(new FileOutputStream(outputFileName));</span>
-<span class="nc" id="L118">              fs = new FileService(ioIn,ioOut);</span>
-              /**
-              hfComp = new HuffmanCompression(fs,compress);
-              if(compress){
-                  hfComp.saveCompressed();
-              }else{
-                  hfComp.saveData();
-              }
-              fs.close();
-              **/
-<span class="nc" id="L128">              hfc = new Huffman(fs,compress);</span>
-<span class="nc" id="L129">          }catch(IOException e){</span>
-<span class="nc" id="L130">              System.out.println(&quot;Exception : &quot;+e.getLocalizedMessage());</span>
-<span class="nc" id="L131">          }</span>
+             
+<span class="nc" id="L104">              fs = new FileService(fileName,outputFileName);</span>
+<span class="nc" id="L105">              hfc = new Huffman(fs,compress);</span>
+<span class="nc" id="L106">          }catch(IOException e){</span>
+<span class="nc" id="L107">              System.out.println(&quot;Exception : &quot;+e.getLocalizedMessage());</span>
+<span class="nc" id="L108">          }</span>
          
           
-<span class="nc bnc" id="L134" title="All 2 branches missed.">      }else if(lzw){</span>
-<span class="nc bnc" id="L135" title="All 2 branches missed.">              if(args.length == 4){</span>
-<span class="nc" id="L136">              extension = args[3];</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">      }else if(lzw){</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">              if(args.length == 4){</span>
+<span class="nc" id="L113">              extension = args[3];</span>
           }else{
-<span class="nc bnc" id="L138" title="All 2 branches missed.">              if(compress){</span>
-<span class="nc" id="L139">                  extension = &quot;.lz&quot;;</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">              if(compress){</span>
+<span class="nc" id="L116">                  extension = &quot;.lz&quot;;</span>
               }else{
-<span class="nc" id="L141">                  extension = &quot;.txt&quot;;</span>
+<span class="nc" id="L118">                  extension = &quot;.txt&quot;;</span>
               }
               
           }
-<span class="nc" id="L145">          int index = 0;</span>
-<span class="nc bnc" id="L146" title="All 2 branches missed.">          for(int i = 0; i&lt; args[2].length();i++){</span>
-<span class="nc bnc" id="L147" title="All 2 branches missed.">              if(args[2].charAt(i)=='.')index = i;</span>
+<span class="nc" id="L122">          int index = 0;</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">          for(int i = 0; i&lt; args[2].length();i++){</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">              if(args[2].charAt(i)=='.')index = i;</span>
           }
-<span class="nc" id="L149">          fileName = args[2];</span>
-<span class="nc" id="L150">          outputFileName = args[2].substring(0, index)+extension;</span>
+<span class="nc" id="L126">          fileName = args[2];</span>
+<span class="nc" id="L127">          outputFileName = args[2].substring(0, index)+extension;</span>
             try{
-<span class="nc" id="L152">              ioIn = new BufferedInputStream(new FileInputStream(fileName));</span>
-<span class="nc" id="L153">              ioOut = new BufferedOutputStream(new FileOutputStream(outputFileName));</span>
-<span class="nc" id="L154">              fs = new FileService(ioIn,ioOut);</span>
-              /**
-              hfComp = new HuffmanCompression(fs,compress);
-              if(compress){
-                  hfComp.saveCompressed();
+<span class="nc" id="L129">              fs = new FileService(fileName,outputFileName);</span>
+       
+<span class="nc" id="L131">              lz = new Lz(fs);</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">              if(compress){</span>
+<span class="nc" id="L133">                  lz.compress();</span>
               }else{
-                  hfComp.saveData();
-              }
-              fs.close();
-              **/
-<span class="nc" id="L164">              lz = new Lz(fs);</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">              if(compress){</span>
-<span class="nc" id="L166">                  lz.compress();</span>
-              }else{
-<span class="nc" id="L168">                  lz.extract();</span>
+<span class="nc" id="L135">                  lz.extract();</span>
               }
              
-<span class="nc" id="L171">          }catch(IOException e){</span>
-<span class="nc" id="L172">              System.out.println(&quot;Exception : &quot;+e.getLocalizedMessage());</span>
-<span class="nc" id="L173">          }</span>
+<span class="nc" id="L138">          }catch(IOException e){</span>
+<span class="nc" id="L139">              System.out.println(&quot;Exception : &quot;+e.getLocalizedMessage());</span>
+<span class="nc" id="L140">          }</span>
           
       }
        
-<span class="nc" id="L177">        System.out.println(&quot;Compression done&quot;);</span>
-<span class="nc" id="L178">    }</span>
+       
+<span class="nc" id="L145">    }</span>
     
- 
+ static void printHelp(){
+<span class="nc" id="L148">     System.out.println(&quot;Compression/Extraction program with Huffman and LZW options version: &quot;+version);</span>
+<span class="nc" id="L149">     System.out.println(&quot;Tiralab project 2021 - Tuomo Mehtälä&quot;);</span>
+<span class="nc" id="L150">     System.out.println(&quot;It is strongly advised to not use this software for anything&quot;);</span>
+<span class="nc" id="L151">     System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L152">     System.out.println(&quot;switches to be used:&quot;);</span>
+<span class="nc" id="L153">     System.out.println(&quot; -hf/lz, -c/e, filename, target externsion(optional)&quot;);</span>
+<span class="nc" id="L154">     System.out.println(&quot;hf is huffman and lz is LZW&quot;);</span>
+<span class="nc" id="L155">     System.out.println(&quot;c is for compression and e for extract&quot;);</span>
+<span class="nc" id="L156">     System.out.println(&quot;filename is the file to be processed, shoudl be at directory :&quot;+System.getProperty(&quot;user.dir&quot;));</span>
+<span class="nc" id="L157">     System.out.println(&quot;If no optional extension is defined, the target for compressed file is either .hf/.lz and for extraction .txt&quot;);</span>
+<span class="nc" id="L158">     System.out.println(&quot;If you want for example '.exe' extension, you should add parameter with value '.exe' &quot;);</span>
+<span class="nc" id="L159"> }</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -84,7 +84,7 @@ public class TST2&lt;Value&gt; {
 <span class="fc" id="L84">        char c = key.charAt(d);</span>
 <span class="fc bfc" id="L85" title="All 2 branches covered.">        if(x == null) return null;</span>
 <span class="fc bfc" id="L86" title="All 2 branches covered.">        if(c&gt;x.getChar()) return get(x.getLeft(),key,d);</span>
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if(c&lt;x.getChar()) return get(x.getRight(), key,d);</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if(c&lt;x.getChar()) return get(x.getRight(), key,d);</span>
 <span class="fc bfc" id="L88" title="All 2 branches covered.">        else if(d&lt;key.length()-1) return get(x.getMid(),key, d+1);</span>
 <span class="fc" id="L89">        else return x;</span>
     }
@@ -94,20 +94,20 @@ public class TST2&lt;Value&gt; {
 <span class="fc" id="L94">        int length = 0;</span>
 <span class="fc" id="L95">        Node&lt;Value&gt; x = root;</span>
 <span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if(x==null) return &quot;&quot;;</span>
-<span class="pc bpc" id="L97" title="1 of 4 branches missed.">        while(x!=null &amp;&amp; d&lt;key.length()){</span>
+<span class="fc bfc" id="L97" title="All 4 branches covered.">        while(x!=null &amp;&amp; d&lt;key.length()){</span>
          
 <span class="fc" id="L99">             char c = key.charAt(d);</span>
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">             if(debug) System.out.println(&quot;searching for: &quot;+c+&quot; key length: &quot;+key.length());</span>
+            // if(debug) System.out.println(&quot;searching for: &quot;+c+&quot; key length: &quot;+key.length());
 <span class="fc bfc" id="L101" title="All 2 branches covered.">            if(c&gt;x.getChar()) x = x.getLeft();</span>
-<span class="pc bpc" id="L102" title="1 of 2 branches missed.">            else if(c&lt;x.getChar()) x = x.getRight();</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            else if(c&lt;x.getChar()) x = x.getRight();</span>
             else{
 <span class="fc" id="L104">                d++;</span>
 <span class="fc" id="L105">                x= x.getMid();</span>
             }
-<span class="pc bpc" id="L107" title="1 of 4 branches missed.">                if(x==null || d == key.length()) length = d;</span>
-<span class="pc bpc" id="L108" title="1 of 2 branches missed.">            if(debug) System.out.println(&quot;d: &quot;+d);</span>
+<span class="fc bfc" id="L107" title="All 4 branches covered.">                if(x==null || d == key.length()) length = d;</span>
+            //if(debug) System.out.println(&quot;d: &quot;+d);
 <span class="fc" id="L109">        }</span>
-<span class="pc bpc" id="L110" title="1 of 2 branches missed.">        if(debug) System.out.println(&quot;returning lenght: &quot;+length);</span>
+      //  if(debug) System.out.println(&quot;returning lenght: &quot;+length);
 <span class="fc" id="L111">        return key.substring(0, length);</span>
     }
 }

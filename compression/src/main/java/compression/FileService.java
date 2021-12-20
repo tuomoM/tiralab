@@ -109,11 +109,10 @@ public class FileService {
         for(int i = 0; i < bytes.length;i++){
            
            strB.append((char)(bytes[i] & 0xff));
-          //  System.out.println("byte : "+i+" data: "+ (char)(bytes[i] & 0xff));
+  
         }
         data = strB.toString();
-       // data = new String(bytes,StandardCharsets.US_ASCII);
-        //  System.out.println("data: "+data);
+
         }catch(IOException e){
             System.out.println("Error reading file "+e.getLocalizedMessage());
         }

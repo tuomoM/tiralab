@@ -12,6 +12,17 @@ repositories {
 dependencies {
     testImplementation     'junit:junit:4.13'
 }
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                "*compression.Main.*"
+            ])
+        }))
+    }
+}
 if (project.hasProperty("args")) {
     ext.cmdargs = project.getProperty("args")
 } else { 
