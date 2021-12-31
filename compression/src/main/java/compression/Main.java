@@ -145,15 +145,21 @@ public class Main {
     }
     
  static void printHelp(){
+     System.out.println("");
+     System.out.println("*******************");
      System.out.println("Compression/Extraction program with Huffman and LZW options version: "+version);
      System.out.println("Tiralab project 2021 - Tuomo Mehtälä");
      System.out.println("It is strongly advised to not use this software for anything");
+     System.out.println("******************");
      System.out.println("");
      System.out.println("switches to be used:");
      System.out.println(" -hf/lz, -c/e, filename, target externsion(optional)");
      System.out.println("hf is huffman and lz is LZW");
      System.out.println("c is for compression and e for extract");
-     System.out.println("filename is the file to be processed, shoudl be at directory :"+System.getProperty("user.dir"));
+     System.out.println("");
+     System.out.println("*****************");
+     System.out.println("");
+     System.out.println("filename is the file to be processed, should be at directory :"+System.getProperty("user.dir"));
      System.out.println("If no optional extension is defined, the target for compressed file is either .hf/.lz and for extraction .txt");
      System.out.println("If you want for example '.exe' extension, you should add parameter with value '.exe' ");
  }

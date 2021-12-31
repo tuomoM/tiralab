@@ -3,9 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package compression;
-
+import java.lang.StringBuilder;
 /**
- *
+ * Implementation of Ternary Search Trie
  * @author tuomomehtala
  */
 class Node<Value>{
@@ -73,6 +73,11 @@ public class TST2<Value> {
         
         return x;
     }
+    /**
+     * Find the key for a given String
+     * @param key String
+     * @return 
+     */
     public Value get(String key){
        if(key.length()==0) return null;
        
@@ -88,26 +93,36 @@ public class TST2<Value> {
         else if(d<key.length()-1) return get(x.getMid(),key, d+1);
         else return x;
     }
-    public String longestPrefix(String key,boolean debug){
+    public String longestPrefix(String key,boolean debug, int start){
       //  if(key.charAt(0)==(char)10)System.out.println("ERROR"+"key: "+key);
         int d = 0;
+        StringBuilder str = new StringBuilder(1000);
+        int strLength = key.length()-start;
+     //   System.out.println("Strlen in beginning: "+ strLength);
         int length = 0;
         Node<Value> x = root;
         if(x==null) return "";
-        while(x!=null && d<key.length()){
+        while(x!=null && d<strLength){
          
-             char c = key.charAt(d);
+             char c = key.charAt(start+d);
+       //      System.out.println("char c at :"+d+ " value "+c);
             // if(debug) System.out.println("searching for: "+c+" key length: "+key.length());
             if(c>x.getChar()) x = x.getLeft();
             else if(c<x.getChar()) x = x.getRight();
             else{
                 d++;
+                str.append(c);
                 x= x.getMid();
             }
-                if(x==null || d == key.length()) length = d;
+                if(x==null || d == strLength) {
+                  //  System.out.println("found d: "+d);
+                    length = d;
+                }
             //if(debug) System.out.println("d: "+d);
         }
+        if(d==0)System.out.println("searching for: "+key.substring(start, key.length()));
       //  if(debug) System.out.println("returning lenght: "+length);
-        return key.substring(0, length);
+        //System.out.println("returngin found string :"+str.toString() + " value of d: "+d);
+        return str.toString();
     }
 }

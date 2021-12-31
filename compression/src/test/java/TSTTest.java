@@ -25,7 +25,7 @@ public class TSTTest {
           tst.put(""+'a', 2);
           tst.put(""+'o', 3);
           tst.put("omega", 4);
-          assertTrue(tst.longestPrefix("omni", false).equals("om"));
+          assertTrue(tst.longestPrefix("omni", false,0).equals("om"));
     }
     @Test
     public void findIdofString(){

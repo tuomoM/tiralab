@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package compression;
-
+import java.lang.StringBuilder;
 /**
  * Implementation of the LZW compression.
  * @author tuomomehtala
@@ -18,6 +18,9 @@ public class Lz {
     public Lz(FileService fs){
     this.fs = fs;    
     }
+    /**
+     * Starts the compression using fileService in and out
+     */
     public void compress(){
         TST2 tst = new TST2<Integer>();
         String input = "";
@@ -38,15 +41,16 @@ public class Lz {
         
         i++; //reserve 256 for eof
         input = fs.readFile();
-        System.out.println("data read into string");
+        int last = input.length()-1;
 
-        System.out.println("input length: "+ input.length());
         int index = 0;
-        while(input.length()>0){
-            index ++;
-            String sub = tst.longestPrefix(input,debug);
-            if(sub.length()==0){
-             if(input.length()<=1)break;
+        while(index<=last){
+            
+            String sub = tst.longestPrefix(input,debug,index);
+            int subLength = sub.length();
+            if(subLength==0){
+             //
+                System.out.println("should not go here");
             }
             try{
            int keycode = (int)tst.get(sub);
@@ -55,20 +59,25 @@ public class Lz {
             fs.writeInt(keycode, W);
             }catch (java.lang.NullPointerException e){
                 debug = true;
-                System.out.println("problem with : "+sub + " input len: "+ input.length());
+                System.out.println("problem with : "+sub + " input index: "+index);
            
             }
-            if(i<Max && sub.length()<input.length()){
-                tst.put(input.substring(0, sub.length()+1), i);
+            if(i<Max && subLength<(last-index-1)){ // this will be done only once / dictionary entry
+            //   System.out.println("creating entry; "+sub + " with indexes start:"+index);
+                tst.put(input.substring(index, index+sub.length()+1), i);
                 i++;
             }
-            input = input.substring(sub.length());
+            index = index+subLength;
+            //input = input.substring(sub.length());
         }
         fs.writeInt(eof, W);
         System.out.println("compression done, closing");
         fs.close();
         
     }
+    /**
+     * Starts the extraction
+     */
     public void extract(){
         String[] dict = new String[Max];
         int i,key,index;

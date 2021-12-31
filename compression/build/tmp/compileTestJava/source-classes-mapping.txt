@@ -1,8 +1,0 @@
-FileServiceTest/FileServiceTest.java
- FileServiceTest.FileServiceTest
-TSTTest.java
- TSTTest
-LZWTest.java
- LZWTest
-HuffmanTest.java
- HuffmanTest

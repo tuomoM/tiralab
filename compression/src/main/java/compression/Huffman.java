@@ -115,7 +115,7 @@ public class Huffman {
             }
         }
         //close files
-        System.out.println("closing at: "+fs.getOutCounter());
+       // System.out.println("closing at: "+fs.getOutCounter());
         fs.close();
         
         
