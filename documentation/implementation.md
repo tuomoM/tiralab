@@ -37,7 +37,7 @@ Huffman encoding traverses the tree for each character in the string, this has t
 ### LZW
 #### compression
 Compression uses the Ternary Search Trie as its core and that has worst case time requirement of **O(n+k)** and average time requirement of **O(n log n)**. Im assuming i get about average performance :D... thus i expect the compression to have  **O(n log n)** time requirement. Since the TST is very efficient space wise, i assume the space requirement ot be close to **O(n)**
-How ever the downfall of this algorithm is the numerous String.substring() calls. 
+How ever as Java String handling is not very fast, this algorithm will slighlty suffer.
 #### extraction
 Extraction is significantly simpler as the indexing of the keys is always predictable (LZW is cool), the extraction uses up to 4095 key words that can be accessed in time of **O(n)**. Thus the time requirement of the extraction should be **O(n)**
 
