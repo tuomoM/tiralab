@@ -23,7 +23,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    private final static String version = "0.1";
+    private final static String version = "1.0";
     
     public static void main(String[] args) {
 
