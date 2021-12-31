@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="LZWTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2021-12-31T13:08:59" hostname="tuomos-MacBook-Pro.local" time="0.081">
+  <properties/>
+  <testcase name="complexLZWCompresses" classname="LZWTest" time="0.073"/>
+  <testcase name="SimpleLZWCompresses" classname="LZWTest" time="0.007"/>
+  <system-out><![CDATA[Compressing
+compression done, closing
+Extraction done, closing.
+inputData: And the LORD said unto Satan, Whence comest thou? Then Satan answered the LORD, and said, From going to and fro in the earth, and from walking up and down in it.
+result: A target : A
+result: n target : n
+result: d target : d
+result:   target :  
+result: t target : t
+result: h target : h
+result: e target : e
+result:   target :  
+result: L target : L
+result: O target : O
+result: R target : R
+result: D target : D
+result:   target :  
+result: s target : s
+result: a target : a
+result: i target : i
+result: d target : d
+result:   target :  
+result: u target : u
+result: n target : n
+result: t target : t
+result: o target : o
+result:   target :  
+result: S target : S
+result: a target : a
+result: t target : t
+result: a target : a
+result: n target : n
+result: , target : ,
+result:   target :  
+result: W target : W
+result: h target : h
+result: e target : e
+result: n target : n
+result: c target : c
+result: e target : e
+result:   target :  
+result: c target : c
+result: o target : o
+result: m target : m
+result: e target : e
+result: s target : s
+result: t target : t
+result:   target :  
+result: t target : t
+result: h target : h
+result: o target : o
+result: u target : u
+result: ? target : ?
+result:   target :  
+result: T target : T
+result: h target : h
+result: e target : e
+result: n target : n
+result:   target :  
+result: S target : S
+result: a target : a
+result: t target : t
+result: a target : a
+result: n target : n
+result:   target :  
+result: a target : a
+result: n target : n
+result: s target : s
+result: w target : w
+result: e target : e
+result: r target : r
+result: e target : e
+result: d target : d
+result:   target :  
+result: t target : t
+result: h target : h
+result: e target : e
+result:   target :  
+result: L target : L
+result: O target : O
+result: R target : R
+result: D target : D
+result: , target : ,
+result:   target :  
+result: a target : a
+result: n target : n
+result: d target : d
+result:   target :  
+result: s target : s
+result: a target : a
+result: i target : i
+result: d target : d
+result: , target : ,
+result:   target :  
+result: F target : F
+result: r target : r
+result: o target : o
+result: m target : m
+result:   target :  
+result: g target : g
+result: o target : o
+result: i target : i
+result: n target : n
+result: g target : g
+result:   target :  
+result: t target : t
+result: o target : o
+result:   target :  
+result: a target : a
+result: n target : n
+result: d target : d
+result:   target :  
+result: f target : f
+result: r target : r
+result: o target : o
+result:   target :  
+result: i target : i
+result: n target : n
+result:   target :  
+result: t target : t
+result: h target : h
+result: e target : e
+result:   target :  
+result: e target : e
+result: a target : a
+result: r target : r
+result: t target : t
+result: h target : h
+result: , target : ,
+result:   target :  
+result: a target : a
+result: n target : n
+result: d target : d
+result:   target :  
+result: f target : f
+result: r target : r
+result: o target : o
+result: m target : m
+result:   target :  
+result: w target : w
+result: a target : a
+result: l target : l
+result: k target : k
+result: i target : i
+result: n target : n
+result: g target : g
+result:   target :  
+result: u target : u
+result: p target : p
+result:   target :  
+result: a target : a
+result: n target : n
+result: d target : d
+result:   target :  
+result: d target : d
+result: o target : o
+result: w target : w
+result: n target : n
+result:   target :  
+result: i target : i
+result: n target : n
+result:   target :  
+result: i target : i
+result: t target : t
+result: . target : .
+Compressing
+compression done, closing
+Extraction done, closing.
+inputData: aaabbca
+result: a target : a
+result: a target : a
+result: a target : a
+result: b target : b
+result: b target : b
+result: c target : c
+result: a target : a
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
